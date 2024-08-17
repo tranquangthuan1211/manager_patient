@@ -1,0 +1,2 @@
+import {DashboardSection} from './config';
+
