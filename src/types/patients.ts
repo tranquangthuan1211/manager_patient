@@ -9,7 +9,7 @@ export interface Patient {
     patient_code: string,
     consulting_day: string,
     id_doctor: string,
-    id_manager: string,
+    doctor_name: string,
     name: string,
     age: number,
     address: string,
@@ -39,24 +39,20 @@ export const patientFilterFunction = (
   };
 interface CategorizedPatients {
     completed: Patient[];   
-    inTreatment: Patient[]; 
-    homeTreatment: Patient[]; 
+    wait: Patient[]; 
 }
   
 export const categorizePatientsByStatus = (patients: Patient[]): CategorizedPatients => {
     const categorizedPatients: CategorizedPatients = {
       completed: [],
-      inTreatment: [],
-      homeTreatment: [],
+      wait: [],
     };
   
     patients.forEach((patient) => {
-      if (patient.status?.toLowerCase() === "đã khám") {
+      if (patient.status?.toLowerCase() === "đã điều trị") {
         categorizedPatients.completed.push(patient);
-      } else if (patient.status?.toLowerCase() === "đang điều trị") {
-        categorizedPatients.inTreatment.push(patient);
-      } else if (patient.status?.toLowerCase() === "điều trị tại nhà") {
-        categorizedPatients.homeTreatment.push(patient);
+      } else if (patient.status?.toLowerCase() === "đang đợi") {
+        categorizedPatients.wait.push(patient);
       }
     });
   

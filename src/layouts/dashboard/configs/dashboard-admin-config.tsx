@@ -12,7 +12,7 @@ export const getDashboardAdminConfigs: DashboardSection[] = [
         subheader:'Admin', 
         items:[
             {
-                title:"Thống kê",
+                title:"Dashboard",
                 path: Paths.dashboard["thong-ke"],
                 icon: <LineAxisIcon sx = {{
                     width: 20,
@@ -26,8 +26,8 @@ export const getDashboardAdminConfigs: DashboardSection[] = [
                 }}/>    
             }, 
             {
-                title: "Quản lý bệnh nhân",
-                path: Paths.dashboard["quan-ly-benh-nhan"],
+                title: "Bệnh nhân",
+                path: Paths.dashboard["benh-nhan"],
                 icon: <AccountBoxIcon sx = {{
                     width: 20,
                 }}/>
@@ -36,6 +36,13 @@ export const getDashboardAdminConfigs: DashboardSection[] = [
                 title:"Quản lý khiếu nại",
                 path: Paths.dashboard["quan-ly-khieu-nai"],
                 icon: <FlagIcon sx = {{
+                    width: 20,
+                }}/>    
+            },
+            {
+                title:"Dịch vụ",
+                path: Paths.dashboard["dich-vu"],
+                icon: <AccountTreeIcon sx = {{
                     width: 20,
                 }}/>    
             },

@@ -8,7 +8,7 @@ const Home: PageType = () => {
   const {user} = useAuth();
   return (
     <Layout>
-      <h1>Welcome {user?.email}</h1>
+      <h1>Welcome</h1>
     </Layout>
   )
 }

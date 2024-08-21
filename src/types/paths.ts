@@ -6,12 +6,13 @@ export const Paths = {
         register: "/auth/jwt/register",
       },
     dashboard: {
-      "thong-ke": "/thong-ke",
+      "thong-ke": "/",
       "thong-tin-tai-khoan": "/thong-tin-tai-khoan",
       "ke-hoach":'/ke-hoach',
       "quan-ly-tai-khoan": "/quan-ly-tai-khoan",
-      "quan-ly-benh-nhan": "/quan-ly-benh-nhan",
+      "benh-nhan": "/quan-ly-benh-nhan",
       "xuat-danh-sach": "/xuat-danh-sach",
+      "dich-vu": "/dich-vu",
       "quan-ly-khieu-nai":"/quan-ly-khieu-nai",
       "settings":'/settings'
     }

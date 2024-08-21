@@ -54,7 +54,7 @@ const Page: PageType = () => {
   ]
   const [filter, setFilter] = useState<Partial<Patient>>({
     status: "all",
-    consulting_day: `${new Date().getFullYear()}`,
+    consulting_day: "",
   });
   const [open,setOpen] = useState<boolean>(false)
   const [consultingDay, setConsultingDay] = useState<string>("");
@@ -122,6 +122,14 @@ useEffect(() => {
                   >
                     Xuất Excel
                   </Button>
+                  <TextField
+                    label="Tìm kiếm bệnh nhân"
+                    variant="outlined"
+                    sx={{
+                      width: "600px",
+                      float: "right",
+                    }}
+                  />
                 </Stack>
               </Stack>
               <StatCustomerSummary

@@ -204,7 +204,7 @@ export const SideNav:FC<SideNavProps> = (props) => {
                 style={{ objectFit: "contain" }}
               />
             </Box>
-            {open ? (
+            {/* {open ? (
               <KeyboardBackspaceIcon
                 onClick={() => setOpen(false)}
                 sx={{ cursor: "pointer" }}
@@ -215,7 +215,7 @@ export const SideNav:FC<SideNavProps> = (props) => {
                 sx={{ cursor: "pointer" }}
               />
             
-            )}
+            )} */}
           </Stack>
 
           <Stack

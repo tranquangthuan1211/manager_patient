@@ -24,6 +24,11 @@ const getPaitientconfigs = (
     type:'string'
    },
    {
+      key:"doctor_name",
+      headerLabel:"Tên bác sĩ",
+      type:"string"
+   },
+   {
     key:'age',
     headerLabel:'Tuổi',
     type:'number'

@@ -48,9 +48,9 @@ export const green = withAlphas({
   lightest: '#F6FEF9',
   light: '#EDFCF2',
   main: '#16B364',
-  dark: '#087443',
+  dark: '#07C59D',
   darkest: '#084C2E',
-  contrastText: '#FFFFFF'
+  contrastText: '#FFFFFF',
 });
 
 export const indigo = withAlphas({
@@ -106,3 +106,6 @@ export const error = withAlphas({
   darkest: '#7A271A',
   contrastText: '#FFFFFF'
 });
+// export const green = withAlphas({
+//   main:"#07C59D"
+// })
