@@ -165,8 +165,9 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
     try {
       const accessToken = CookieHelper.getItem("token");
       if (accessToken) {
-        const user = await UsersApi.me();
-        // console.log(user);
+        const response = await UsersApi.me();
+        // console.log(respone.data)
+        const user = response.data;
         if (!user) {
           throw new Error("Ger user failed.");
         }

@@ -14,7 +14,7 @@ class UserApi {
     async signUp(request: SignUpRequest): SignUpResponse {
         return await apiPost("/users", request);
       }
-    async me(): Promise<User> {
+    async me(): Promise<{data:User}> {
         return await apiGet("/users/info");
       }
 }

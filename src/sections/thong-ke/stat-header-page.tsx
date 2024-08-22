@@ -29,9 +29,9 @@ export const StatHeaderPage = (
   }: StatHeaderPageProps
 ) => {
   const categorizedPatients = useMemo(() => categorizePatientsByStatus(patients), [patients]);
-  useEffect(() => {
-    console.log(categorizedPatients);
-  }, [categorizedPatients]);
+  // useEffect(() => {
+  //   console.log(categorizedPatients);
+  // }, [categorizedPatients]);
   const data = [
     {
       name: 'Page A',

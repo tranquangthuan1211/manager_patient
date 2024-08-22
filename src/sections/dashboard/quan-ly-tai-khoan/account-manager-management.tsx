@@ -1,17 +1,29 @@
-import { Box, Stack, Typography } from '@mui/material';
-import {FC} from 'react';
+import { Box, CircularProgress, Stack, TablePagination, Typography } from '@mui/material';
+import {FC, useEffect, useMemo} from 'react';
+import { useAccount } from 'src/contexts/accounts/account-context';
+import usePagination from 'src/hooks/use-pagination';
 import {User} from 'src/types/users';
-interface AccountAdministratorProps {
+import {AccountManagerTable} from './account-manager-table';
+interface AccountManagerProps {
     filter?: Partial<Omit<User,"id">>;
     setFilter?: React.Dispatch<
     React.SetStateAction<Partial<Omit<User, "ID">>>
   >;
 }
 
-const AccountAdministrator = ({
+const AccountManager = ({
     filter,
     setFilter
-}: AccountAdministratorProps) => {
+}: AccountManagerProps) => {
+    const {getAccountManagers} = useAccount();
+
+    const listAccountManagers = useMemo(() => {
+      return getAccountManagers.data?.data || [];
+    },[getAccountManagers.data]);
+    useEffect(() => {
+      console.log(getAccountManagers)
+    },[listAccountManagers])
+    const pagination = usePagination({ count: 20 });
     return (
     <>
         <Box
@@ -31,22 +43,22 @@ const AccountAdministrator = ({
             </Typography>
             </Stack>
         </Box>
-      {/* <Stack sx={{ flex: 1 }} minHeight={"0"} minWidth={"0"}>
-        {getAccountsOfficerApi.loading ? (
+      <Stack sx={{ flex: 1 }} minHeight={"0"} minWidth={"0"}>
+        {getAccountManagers.loading ? (
           <CircularProgress sx={{ m: 2 }} />
         ) : (
-          <AccountsOfficerTable
-            accounts={listAccountsOfficer.slice(
+          <AccountManagerTable
+            accounts={listAccountManagers.slice(
               pagination.rowsPerPage * pagination.page,
               pagination.rowsPerPage * (pagination.page + 1)
             )}
-            filter={filter}
-            onChangeFilter={setFilter}
+            filter={filter || {}}
+            onChangeFilter={setFilter || (() => {})}
           />
         )}
-      </Stack> */}
+      </Stack>
 
-      {/* <TablePagination
+      <TablePagination
         component="div"
         {...pagination}
         rowsPerPageOptions={[5, 10, 25, 100]}
@@ -59,8 +71,8 @@ const AccountAdministrator = ({
           borderTop: "1px solid",
           borderColor: "divider",
         }}
-      /> */}
+      />
     </>
     )
 }
-export default AccountAdministrator;
+export default AccountManager;

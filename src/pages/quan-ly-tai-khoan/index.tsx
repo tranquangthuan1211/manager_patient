@@ -1,15 +1,16 @@
-import {FC, useState} from 'react';
+import {use, useState} from 'react';
 import {Layout} from 'src/layouts';
 import { type Page as PageType } from 'src/types/page';
 import {Stack,Box, Button, Tabs, Tab} from '@mui/material';
 import ContentHeader from 'src/sections/dashboard/quan-ly-tai-khoan/content-header';
 import { Add, UploadFile } from '@mui/icons-material';
-import AccountAdministrator from 'src/sections/dashboard/quan-ly-tai-khoan/account-administrators';
 import AccountPatient from 'src/sections/dashboard/quan-ly-tai-khoan/account-patient-management';
 import { useDrawer } from 'src/hooks/use-drawer';
 import {AccountUploadSection} from 'src/sections/dashboard/quan-ly-tai-khoan/account-upload-section';
+import AccountDoctor from 'src/sections/dashboard/quan-ly-tai-khoan/account-doctor-management';
 import UsersProvider from 'src/contexts/users/users-context';
 import AccountProvider from 'src/contexts/accounts/account-context';
+import  AccountManager from "src/sections/dashboard/quan-ly-tai-khoan/account-manager-management"
 import { useAuth } from 'src/hooks/use-auth';
 let tabs = [
     {
@@ -20,13 +21,10 @@ let tabs = [
       label: "Tài khoản bác sĩ",
       key: "Tài khoản bác sĩ",
     },
-    {
-      label: "Tài khoản quản trị viên",
-      key: "Tài khoản quản trị viên",
-    }
 ];
 const Page: PageType = () => {
-    const auth = useAuth();
+    const {user} = useAuth();
+    console.log(user?.role);
     const [type, setType] = useState("patient");
     const [tab, setTab] = useState(tabs[0].key);
     const uploadDrawer = useDrawer();
@@ -52,8 +50,6 @@ const Page: PageType = () => {
                   onClick={() => {
                     if (tab === tabs[1].key) {
                       setType("doctor");
-                    } else if (tabs.length === 3 && tab === tabs[2].key) {
-                      setType("admin");
                     }
                     else {
                       setType("user");
@@ -89,6 +85,9 @@ const Page: PageType = () => {
                 {tabs.map((tab) => (
                 <Tab key={tab.key} label={tab.label} value={tab.key} />
                 ))}
+                {user?.role === "admin" && (
+                  <Tab key="admin" label="Tài khoản quản trị" value="admin" />
+                )}
             </Tabs>
         }
         />  
@@ -98,13 +97,24 @@ const Page: PageType = () => {
                 setFilter={() => {}}
             />
         )}  
-        <UsersProvider>
-          <AccountUploadSection
+        {tab === tabs[1].key && (
+            <AccountDoctor
+                filter={{}}
+                setFilter={() => {}}
+            />
+        )}
+        {user?.role === "admin" && (
+            <AccountManager
+              filter = {{}}
+              setFilter={() => {}}
+            />
+        )} 
+
+        <AccountUploadSection
               open={uploadDrawer.open}
               onClose={uploadDrawer.handleClose}
               type={type}
-          /> 
-        </UsersProvider>  
+        />  
     </Stack>
     )
 }

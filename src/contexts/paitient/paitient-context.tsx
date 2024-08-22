@@ -29,9 +29,9 @@ export const PatientContext = createContext<ContextValue>({
 
 const PatientProvider = ({ children }: { children: ReactNode }) => {
     const getPatientsApi = useFunction(PatientsApi.getPatients);
-   useEffect(() => {
-        console.log(getPatientsApi)
-   },[getPatientsApi.data])
+//    useEffect(() => {
+//         console.log(getPatientsApi)
+//    },[getPatientsApi.data])
 
     const deletePatient = useCallback(
         async (id: string) => {

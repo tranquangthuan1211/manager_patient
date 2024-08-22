@@ -1,28 +1,28 @@
+import { useEffect, useMemo } from 'react';
 import { Box, CircularProgress, Stack, Typography ,TablePagination} from '@mui/material';
 import {User} from 'src/types/users';
 import { useAccount } from 'src/contexts/accounts/account-context';
-import getPatientTableConfig from 'src/sections/dashboard/quan-ly-tai-khoan/patient-table-config';
 import {AccountPatientManagement} from './account-patients-table';
 import usePagination from 'src/hooks/use-pagination';
-import { use, useEffect, useMemo } from 'react';
-interface AccountPatientProps {
+import {AccountDoctorTable} from './account-doctor-table';
+interface AccountDoctorProps {
     filter: Partial<Omit<User,"id">>;
     setFilter: React.Dispatch<
     React.SetStateAction<Partial<Omit<User, "ID">>>
   >;
 }
 
-const AccountPatient = ({
+const AccountDoctor = ({
     filter,
     setFilter
-}: AccountPatientProps) => {
-    const {getAccountPatients} = useAccount();
-    const listAccountsPatient = useMemo(() => {
-      return getAccountPatients.data?.data || [];
-    },[getAccountPatients.data])
-    // useEffect(() => {
-    //   console.log(getAccountPatients)
-    // },[listAccountsPatient])
+}: AccountDoctorProps) => {
+    const {getAccountDoctors} = useAccount();
+    const listAccountsDoctor = useMemo(() => {
+        return getAccountDoctors.data?.data || [];
+    },[getAccountDoctors.data])
+    useEffect(() => {
+      console.log(getAccountDoctors)
+    },[listAccountsDoctor])
     const pagination = usePagination({ count: 20 });
     return (
     <>
@@ -37,18 +37,18 @@ const AccountPatient = ({
             height: "20px",
             }}
         >
-            <Stack flex={1} spacing={listAccountsPatient.length}>
+            <Stack flex={1} spacing={listAccountsDoctor.length}>
             <Typography variant="h6" sx={{ flex: 1 }}>
                 Danh sách tài khoản: {6}
             </Typography>
             </Stack>
         </Box>
       <Stack sx={{ flex: 1 }} minHeight={"0"} minWidth={"0"}>
-        {getAccountPatients.loading ? (
+        {getAccountDoctors.loading ? (
           <CircularProgress sx={{ m: 2 }} />
         ) : (
-          <AccountPatientManagement
-            accounts={listAccountsPatient.slice(
+          <AccountDoctorTable
+            accounts={listAccountsDoctor.slice(
               pagination.rowsPerPage * pagination.page,
               pagination.rowsPerPage * (pagination.page + 1)
             )}
@@ -75,4 +75,4 @@ const AccountPatient = ({
     </>
     )
 }
-export default AccountPatient;
+export default AccountDoctor;

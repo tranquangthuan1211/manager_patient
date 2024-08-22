@@ -21,7 +21,7 @@ const getRequestHeaders = async (
   isFormData?: boolean
 ): Promise<any> => {
   const token =  CookieHelper.getItem("token");
-  console.log(token);
+  // console.log(token);
   const headers = new Headers();
   if (token) {
     headers.append("Authorization", "Bearer " + token);

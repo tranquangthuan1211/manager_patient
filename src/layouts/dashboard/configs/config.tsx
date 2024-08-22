@@ -1,6 +1,7 @@
 
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import {getDashboardAdminConfigs} from './dashboard-admin-config';
+import { useAuth } from 'src/hooks/use-auth';
 export interface DashboardItem {
     disabled?: boolean;
     external?: boolean;
@@ -15,26 +16,22 @@ export interface DashboardSection{
     items: DashboardItem[];
     subheader?: string;
 }
-const textSection: DashboardSection[] = 
-[
-    {
-      subheader:"Quan Ly",
-      items:[
-        {
-          title: "Home",
-          path: "/home",
-        },
-        {
-          title: "Settings",
-          path: "/settings",
-        },
-        {
-          title: "dashboard",
-          path: "/dashboard",
-        }
-      ]
-    }
-]
 export const useSections = (): DashboardSection[] => {
-    return getDashboardAdminConfigs;
+    const {user} = useAuth();
+  const [sections, setSections] = useState<DashboardSection[]>([]);
+
+  useEffect(() => {
+    async function fetchSections() {
+    
+      let configs: DashboardSection[] = [];
+      if (user?.role === "admin" || user?.role === "manager") {
+        configs = getDashboardAdminConfigs;
+      }
+      setSections(configs);
+    }
+
+    fetchSections();
+  }, [user]);
+
+  return sections;
 }

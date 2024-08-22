@@ -5,8 +5,8 @@ import AccountApi from "src/api/accounts";
 import { getFormData } from "src/api/api-requests";
 interface contextValue {
     getAccountPatients : UseFunctionReturnType<FormData, any>;
-    // getAccountDoctors ?: UseFunctionReturnType<FormData, any>;
-    // getAccountOfficers ?: UseFunctionReturnType<FormData, any>;
+    getAccountDoctors : UseFunctionReturnType<FormData, any>;
+    getAccountManagers : UseFunctionReturnType<FormData, any>;
     createAccount?: (requests: Partial<Account>) => Promise<void>;
     updateAccount?: (activity: Account) => Promise<void>;
     deleteAccount?: (ids: string[], role: string) => Promise<void>;
@@ -14,30 +14,30 @@ interface contextValue {
 
 export const AccountContext = createContext<contextValue>({
     getAccountPatients: DEFAULT_FUNCTION_RETURN,
-    // getAccountDoctors: DEFAULT_FUNCTION_RETURN,
-    // getAccountOfficers: DEFAULT_FUNCTION_RETURN,
+    getAccountDoctors: DEFAULT_FUNCTION_RETURN,
+    getAccountManagers: DEFAULT_FUNCTION_RETURN,
 });
 
 const AccountProvider = ({ children }:{ children: ReactNode }) => {
     const getAccountPatients = useFunction(AccountApi.getAccount);
-    // const getAccountDoctors = useFunction(AccountApi.getAccount);
-    // const getAccountOfficers = useFunction(AccountApi.getAccount);
+    const getAccountDoctors = useFunction(AccountApi.getAccount);
+    const getAccountManagers = useFunction(AccountApi.getAccount);
 
     useEffect(() => {
         const patientsRequest = getFormData({role: "patient"});
-        // const doctorsRequest = getFormData({role: "doctor"});
-        // const officersRequest = getFormData({role: "manager"});
+        const doctorsRequest = getFormData({role: "doctor"});
+        const officersRequest = getFormData({role: "manager"});
 
         getAccountPatients.call(patientsRequest);
-        // getAccountDoctors.call(doctorsRequest);
-        // getAccountOfficers.call(officersRequest);
+        getAccountDoctors.call(doctorsRequest);
+        getAccountManagers.call(officersRequest);
     },[])
     return (
         <AccountContext.Provider
             value={{
                 getAccountPatients,
-                // getAccountDoctors: DEFAULT_FUNCTION_RETURN,
-                // getAccountOfficers: DEFAULT_FUNCTION_RETURN,
+                getAccountDoctors,
+                getAccountManagers
             }}
         >
             {children}

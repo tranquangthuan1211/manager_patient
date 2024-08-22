@@ -9,6 +9,7 @@ export interface Account {
   phone: string;
   password: string;
   role: string;
+  major: string;
   createdAt?: string;
   updatedAt?: string;
   deletedAt?: string;
@@ -23,6 +24,7 @@ export const initialAccount: Account = {
   address: "",
   password: "",
   role: "",
+  major: "",
   updatedAt: "",
   createdAt: "",
   deletedAt: "",

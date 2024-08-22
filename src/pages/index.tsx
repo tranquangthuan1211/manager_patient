@@ -66,9 +66,9 @@ const Page: PageType = () => {
     return patients.filter((patient) => patientFilterFunction(patient,filter));
   },[filter,patients])
   const categorizedPatientByMonth = categorizedPatientsByYear(patientFilter);
-useEffect(() => {
-  console.log(patientFilter)
-},[patientFilter])
+// useEffect(() => {
+//   console.log(patientFilter)
+// },[patientFilter])
   return (
     <>
       <StatPageContainer open = {true}>

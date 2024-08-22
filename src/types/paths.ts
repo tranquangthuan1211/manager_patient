@@ -1,3 +1,4 @@
+import doctor from "src/api/doctor";
 
 export const Paths = {
     index:'/',
@@ -15,5 +16,11 @@ export const Paths = {
       "dich-vu": "/dich-vu",
       "quan-ly-khieu-nai":"/quan-ly-khieu-nai",
       "settings":'/settings'
+    },
+    doctor:{
+
+    },
+    patient:{
+      
     }
 }

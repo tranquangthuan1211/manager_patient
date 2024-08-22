@@ -1,6 +1,5 @@
 import {FC} from 'react';
-import getPatientTableConfig  from './patient-table-config';
-import {User} from 'src/types/users';
+import getMangerConfigs from "./manager-table-config"
 import {Account} from 'src/types/account';
 import { CustomTable } from 'src/components/custom-table';
 import { Stack, styled, TableCell, TableRow, TextField, TextFieldProps } from '@mui/material';
@@ -11,21 +10,19 @@ const NoLabelTextField = styled(TextField)<TextFieldProps>(() => ({
       paddingTop: "8px",
     },
   }));
-interface AccountPatientManagementProps {
+interface AccountManagerProps {
     filter: Partial<Omit<Account, "id">>;
     onChangeFilter: React.Dispatch<React.SetStateAction<Partial<Omit<Account, "id">>>>;
     accounts: Account[];
 }
 
-export const AccountPatientManagement: FC<AccountPatientManagementProps> = ({
+export const AccountManagerTable: FC<AccountManagerProps> = ({
     filter,
     onChangeFilter,
     accounts
 }) => {
   const editDialog = useDrawer<Account>();
-  const patientTableConfigs = getPatientTableConfig({
-    editPatient: (data: Account) => editDialog.handleOpen(data)
-  });
+  const patientTableConfigs = getMangerConfigs();
     return (
        <>
         <CustomTable
@@ -76,30 +73,7 @@ export const AccountPatientManagement: FC<AccountPatientManagementProps> = ({
                       }
                     ></NoLabelTextField>
                   </TableCell>
-                  <TableCell align="center">
-                    <NoLabelTextField
-                      fullWidth
-                      value={filter.address}
-                      onChange={(e) =>
-                        onChangeFilter({
-                          ...filter,
-                          address: e.target.value,
-                        })
-                      }
-                    ></NoLabelTextField>
-                  </TableCell>
-                  <TableCell align="center">
-                    <NoLabelTextField
-                      fullWidth
-                      value={filter.address}
-                      onChange={(e) =>
-                        onChangeFilter({
-                          ...filter,
-                          address: e.target.value,
-                        })
-                      }
-                    ></NoLabelTextField>
-                  </TableCell>
+                  <TableCell align="center"></TableCell>
                 </TableRow>
               }
         />
@@ -123,7 +97,7 @@ export const AccountPatientManagement: FC<AccountPatientManagementProps> = ({
               <Stack>
                 <TextField
                   fullWidth
-                  label="Tên bệnh nhân"
+                  label="Tên "
                   value={editDialog.data?.name}
                   // onChange={(e) =>
                   //   editDialog.setData({
