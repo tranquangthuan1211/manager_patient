@@ -3,9 +3,11 @@ import { CustomTableConfig } from 'src/components/custom-table';
 import { Stack, IconButton } from '@mui/material';
 import { Edit, Clear, Restore } from '@mui/icons-material';
 const getPaitientconfigs = ({
-   editPatient
+   editPatient,
+   detelePatient
 }: {
-   editPatient: (account:Account) => void
+   editPatient: (account:Account) => void,
+   detelePatient: (account:Account) => void
 }):CustomTableConfig<Account["id"],Account>[] => [
    {
     key: "patient_code",
@@ -48,6 +50,7 @@ const getPaitientconfigs = ({
             <IconButton color="warning">
                <Clear  
                   sx={{ height: "20px", width: "20px" }} 
+                  onClick={() => detelePatient(data)}
                />
             </IconButton>
              

@@ -103,7 +103,7 @@ const Page: PageType = () => {
                 setFilter={() => {}}
             />
         )}
-        {user?.role === "admin" && (
+        {user?.role === "admin" && tab === "admin" &&(
             <AccountManager
               filter = {{}}
               setFilter={() => {}}

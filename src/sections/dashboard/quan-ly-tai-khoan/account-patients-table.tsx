@@ -1,11 +1,13 @@
 import {FC} from 'react';
 import getPatientTableConfig  from './patient-table-config';
-import {User} from 'src/types/users';
 import {Account} from 'src/types/account';
 import { CustomTable } from 'src/components/custom-table';
-import { Stack, styled, TableCell, TableRow, TextField, TextFieldProps } from '@mui/material';
+import {styled, TableCell, TableRow, TextField, TextFieldProps } from '@mui/material';
 import { useDrawer } from 'src/hooks/use-drawer';
-import CustomDrawer from 'src/components/custom-drawer';
+import { useDialog } from 'src/hooks/use-dialog';
+import { ConfirmDialog } from 'src/components/confirm-dialog';
+import AccountsEditPaitientDrawer from './account-edit-paitient-drawer';
+import { useAccount } from 'src/contexts/accounts/account-context';
 const NoLabelTextField = styled(TextField)<TextFieldProps>(() => ({
     "& .MuiInputBase-input.MuiFilledInput-input": {
       paddingTop: "8px",
@@ -23,9 +25,12 @@ export const AccountPatientManagement: FC<AccountPatientManagementProps> = ({
     accounts
 }) => {
   const editDialog = useDrawer<Account>();
+  const deleteDialog = useDialog<Account>();
   const patientTableConfigs = getPatientTableConfig({
-    editPatient: (data: Account) => editDialog.handleOpen(data)
+    editPatient: (data: Account) => editDialog.handleOpen(data),
+    detelePatient: (data: Account) => deleteDialog.handleOpen(data),
   });
+  const {deleteAccount} = useAccount();
     return (
        <>
         <CustomTable
@@ -103,37 +108,23 @@ export const AccountPatientManagement: FC<AccountPatientManagementProps> = ({
                 </TableRow>
               }
         />
-        <CustomDrawer
-            title='Chỉnh sửa bệnh nhân'
-            DrawerProps={
-              {
-                anchor: "right",
-                open: editDialog.open,
-                onClose: editDialog.handleClose,
-                sx: {
-                  width: 300,
-                },
-              }
-            }
-            onCancel={editDialog.handleClose}
-            onSubmit={() => {
-              console.log(editDialog.data);
-            }}
-            children = {
-              <Stack>
-                <TextField
-                  fullWidth
-                  label="Tên bệnh nhân"
-                  value={editDialog.data?.name}
-                  // onChange={(e) =>
-                  //   editDialog.setData({
-                  //     ...editDialog.data,
-                  //     name: e.target.value,
-                  //   })
-                  // }
-                />      
-              </Stack>
-            }
+        <AccountsEditPaitientDrawer
+            open={editDialog.open}
+            onClose={editDialog.handleClose}
+            account={editDialog.data}
+        />
+        
+        <ConfirmDialog
+            title={`Xác nhận xóa bệnh nhân ${deleteDialog.data?.name}`}
+            onCancel={deleteDialog.handleClose} 
+            open={deleteDialog.open} 
+            onConfirm={async () => {
+                if(deleteDialog.data){
+                    await deleteAccount(deleteDialog.data.id, "patient");
+                    deleteDialog.handleClose();
+                }
+            }}   
+            color='error'    
         />
        </>
     );
