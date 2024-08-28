@@ -1,21 +1,21 @@
-
-import {FC, ReactNode, useMemo, useState} from "react"
-import {NavColor} from "src/types/settings"
-import {DashboardSection} from "../configs/config"
-import { Drawer,Stack, Box} from "@mui/material"
-import { SideNavSection } from "./side-nav-section"
+import type { FC } from "react";
+import { useMemo } from "react";
+import PropTypes from "prop-types";
+import File04Icon from "@untitled-ui/icons-react/build/esm/File04";
+import { Box, Button, Drawer, Stack, SvgIcon, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import Logo  from "src/components/logo";
+import { RouterLink } from "src/components/router-link";
 import { Scrollbar } from "src/components/scroll-bar"
-import { usePathname } from "next/navigation"
-import { DashboardItem } from "./side-nav-section"
-import { useSections } from "../configs/config"
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-const SIDE_NAV_WIDTH = 280;
-interface SideNavProps {
-    color?: NavColor;
-    sections?: DashboardSection[];
-}
+import { usePathname } from "src/hooks/use-pathname";
+import {Paths} from 'src/types/paths';
+import type { NavColor } from "src/types/settings";
+import { TenantSwitch } from "../tenant-switch";
+import { MobileNavSection } from "./mobile-nav-section";
+import useSections, { DashboardSection } from "../configs";
+
+const MOBILE_NAV_WIDTH: number = 280;
+
 const useCssVars = (color: NavColor): Record<string, string> => {
   const theme = useTheme();
 
@@ -143,28 +143,33 @@ const useCssVars = (color: NavColor): Record<string, string> => {
     }
   }, [theme, color]);
 };
-export const SideNav:FC<SideNavProps> = (props) => {
-  const { color = "blue"} = props;
-    const cssVars = useCssVars(color)
-    const pathname = usePathname()
-    const sections = useSections()
-    // const [open, setOpen] = useState(false);
-    return (
-      <Drawer 
-        open 
-        PaperProps={{
-          sx: {
-            ...cssVars,
-            backgroundColor: "var(--nav-bg)",
-            borderRightColor: "var(--nav-border-color)",
-            borderRightStyle: "solid",
-            borderRightWidth: 1,
-            color: "var(--nav-color)",
-            width: SIDE_NAV_WIDTH,
-          },
-        }}
-        sx={{ zIndex: (theme) => theme.zIndex.drawer - 2 }}
-        variant="permanent"
+
+interface MobileNavProps {
+  color?: NavColor;
+  onClose?: () => void;
+  open?: boolean;
+  sections?: DashboardSection[];
+}
+
+export const MobileNav: FC<MobileNavProps> = (props) => {
+  const { color = "evident", open, onClose} = props;
+  const pathname = usePathname();
+  const cssVars = useCssVars(color);
+  const sections = useSections()
+  return (
+    <Drawer
+      anchor="left"
+      onClose={onClose}
+      open={open}
+      PaperProps={{
+        sx: {
+          ...cssVars,
+          backgroundColor: "var(--nav-bg)",
+          color: "var(--nav-color)",
+          width: MOBILE_NAV_WIDTH,
+        },
+      }}
+      variant="temporary"
     >
       <Scrollbar
         sx={{
@@ -178,45 +183,25 @@ export const SideNav:FC<SideNavProps> = (props) => {
         }}
       >
         <Stack sx={{ height: "100%" }}>
-          <Stack
-            alignItems="center"
-            direction="row"
-            spacing={1.5}
-            sx={{ py: 3, px: 2 }}
-          >
+          <Stack alignItems="center" direction="row" spacing={2} sx={{ p: 3 }}>
             <Box
-              // component={RouterLink}
-              // href={paths.index}
+              component={RouterLink}
+              href={Paths.index}
               sx={{
+                borderColor: "var(--nav-logo-border)",
                 borderRadius: 1,
+                borderStyle: "solid",
+                borderWidth: 1,
                 display: "flex",
-                height: 40,
+                height: 50,
                 p: "4px",
-                width: 40,
+                width: 50,
               }}
             >
-              <img
-                src="/logo.png"
-                alt="logo"
-                width="100%"
-                height="100%"
-                style={{ objectFit: "contain" }}
-              />
+              <Logo />
             </Box>
-            {/* {open ? (
-              <KeyboardBackspaceIcon
-                onClick={() => setOpen(false)}
-                sx={{ cursor: "pointer" }}
-              />
-            ) : (
-              <ArrowRightAltIcon
-                onClick={() => setOpen(true)}
-                sx={{ cursor: "pointer" }}
-              />
-            
-            )} */}
+            <TenantSwitch sx={{ flexGrow: 1 }} />
           </Stack>
-
           <Stack
             component="nav"
             spacing={2}
@@ -226,16 +211,23 @@ export const SideNav:FC<SideNavProps> = (props) => {
             }}
           >
             {sections.map((section, index) => (
-              <SideNavSection
+              <MobileNavSection
                 items={section.items}
                 key={index}
                 pathname={pathname}
                 subheader = {section.subheader}
-              />
+                />
             ))}
           </Stack>
         </Stack>
       </Scrollbar>
     </Drawer>
-    );
-}
+  );
+};
+
+MobileNav.propTypes = {
+  color: PropTypes.oneOf<NavColor>(["blend-in", "discreet", "evident"]),
+  onClose: PropTypes.func,
+  open: PropTypes.bool,
+  sections: PropTypes.array,
+};

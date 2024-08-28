@@ -2,7 +2,6 @@ import { useEffect, useMemo } from 'react';
 import { Box, CircularProgress, Stack, Typography ,TablePagination} from '@mui/material';
 import {User} from 'src/types/users';
 import { useAccount } from 'src/contexts/accounts/account-context';
-import {AccountPatientManagement} from './account-patients-table';
 import usePagination from 'src/hooks/use-pagination';
 import {AccountDoctorTable} from './account-doctor-table';
 interface AccountDoctorProps {
@@ -39,7 +38,7 @@ const AccountDoctor = ({
         >
             <Stack flex={1} spacing={listAccountsDoctor.length}>
             <Typography variant="h6" sx={{ flex: 1 }}>
-                Danh sách tài khoản: {6}
+                Danh sách tài khoản: {listAccountsDoctor.length} 
             </Typography>
             </Stack>
         </Box>

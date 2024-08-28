@@ -8,8 +8,8 @@ const Logo = () => {
                     backgroundImage: "url(/logo.png)",
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
-                    width: "80px",
-                    height: "80px",
+                    width: 50,
+                    height: 50,
                     borderRadius: "50%",
                 }}
             />

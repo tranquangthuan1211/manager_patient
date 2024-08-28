@@ -71,8 +71,15 @@ const [displayPassword, setDisplayPassword] = useState(false);
                             spacing={1}
                             alignItems={"center"}
                         >
-                            <Box>
+                            <Box
+                                sx = {{
+                                    display: "flex",
+                                    
+                                    spacing:1
+                                }}
+                            >
                                 <Logo />
+                                <Typography variant="h6">MED</Typography>
                             </Box>
                             <Box>
                                 <Typography variant="h6">MED_Chăm sóc sức khoẻ</Typography>

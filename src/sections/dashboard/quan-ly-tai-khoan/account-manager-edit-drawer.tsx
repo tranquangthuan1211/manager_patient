@@ -16,8 +16,13 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import useFunction from "src/hooks/use-function";
 import { useFormik } from "formik";
+import { DatePicker } from "@mui/x-date-pickers";
 import { Account, initialAccount } from "src/types/account";
+// import { useCategoriesContext } from "src/contexts/danh-muc/categories-context";
+// import { useAccountContext } from "src/contexts/tai-khoan/accounts-context";
+// import { UploadArea } from "./upload-area";
 import { useAccount } from "src/contexts/accounts/account-context";
+import { getFormData } from "src/api/api-requests";
 
 const NoLabelTextField = styled(TextField)<TextFieldProps>(() => ({
   "& .MuiInputBase-input.MuiFilledInput-input": {
@@ -36,7 +41,7 @@ const tabs = [
   },
 ];
 
-function AccountsEditDoctorDrawer({
+function AccountsEditManagerDrawer({
   open,
   onClose: onCloseParam,
   account,
@@ -197,17 +202,17 @@ function AccountsEditDoctorDrawer({
                   
                   <Stack direction={"column"} spacing={"8px"} width={1}>
                     <Typography fontSize={"12px"} fontWeight={500}>
-                      HỌ TÊN
+                      Tên Phòng khám
                     </Typography>
                     <NoLabelTextField
                       fullWidth
-                      placeholder="Nhập họ tên..."
+                      placeholder="Nhập tên phòng khám..."
                       name="name"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                     />
                   </Stack>
-                  <Stack direction={"column"} spacing={"8px"} width={1}>
+                  {/* <Stack direction={"column"} spacing={"8px"} width={1}>
                     <Typography fontSize={"12px"} fontWeight={500}>
                       Giới tính
                     </Typography>
@@ -218,7 +223,7 @@ function AccountsEditDoctorDrawer({
                       value={formik.values.gender}
                       onChange={formik.handleChange}
                     />
-                  </Stack>
+                  </Stack> */}
                 </Stack>
 
                 <Stack
@@ -238,7 +243,7 @@ function AccountsEditDoctorDrawer({
                       onChange={formik.handleChange}
                     />
                   </Stack>
-                  <Stack direction={"column"} spacing={"8px"} width={1}>
+                  {/* <Stack direction={"column"} spacing={"8px"} width={1}>
                     <Typography fontSize={"12px"} fontWeight={500}>
                       Tuổi
                     </Typography>
@@ -249,7 +254,7 @@ function AccountsEditDoctorDrawer({
                       value={formik.values.age}
                       onChange={formik.handleChange}
                     />
-                  </Stack>
+                  </Stack> */}
                 </Stack>
 
                 <Stack
@@ -266,26 +271,6 @@ function AccountsEditDoctorDrawer({
                       placeholder="Nhập số điện thoại..."
                       name="phone"
                       value={formik.values.phone}
-                      onChange={(e) => {
-                        formik.handleChange(e);
-                      }}
-                    />
-                  </Stack>
-                </Stack>
-                <Stack
-                  direction={"row"}
-                  spacing={"16px"}
-                  justifyContent={"space-between"}
-                >
-                  <Stack direction={"column"} spacing={"8px"} width={1}>
-                    <Typography fontSize={"12px"} fontWeight={500}>
-                      Chuyên khoa
-                    </Typography>
-                    <NoLabelTextField
-                      fullWidth
-                      placeholder="Nhập chuyên khoa..."
-                      name="major"
-                      value={formik.values.major}
                       onChange={(e) => {
                         formik.handleChange(e);
                       }}
@@ -314,4 +299,4 @@ function AccountsEditDoctorDrawer({
   );
 }
 
-export default AccountsEditDoctorDrawer;
+export default AccountsEditManagerDrawer;

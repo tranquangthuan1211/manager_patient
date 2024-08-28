@@ -4,7 +4,15 @@ import { CustomTableConfig } from "src/components/custom-table";
 import { Account } from "src/types/account";
 
 
-const getMangerConfigs = (): CustomTableConfig<Account["id"], Account>[] => [
+const getMangerConfigs = (
+    {
+        editDrawer,
+        deleteDialog
+    }: {
+        editDrawer: (account: Account) => void;
+        deleteDialog: (account: Account) => void;
+    }
+): CustomTableConfig<Account["id"], Account>[] => [
     {
         key: "manager_code",
         headerLabel: "Mã quản lý",
@@ -38,12 +46,15 @@ const getMangerConfigs = (): CustomTableConfig<Account["id"], Account>[] => [
                 paddingRight="25px"
             >
                 <IconButton color="warning">
-                    <Clear sx={{ height: "20px", width: "20px" }} />
+                    <Clear 
+                        sx={{ height: "20px", width: "20px" }}
+                        onClick={() => deleteDialog(data)} 
+                    />
                 </IconButton>
                 <IconButton color="primary">
                     <Edit
                         sx={{ height: "20px", width: "20px" }}
-                        onClick={() => console.log(data)}
+                        onClick={() => editDrawer(data)}
                     />
                 </IconButton>
             </Stack>

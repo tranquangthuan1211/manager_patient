@@ -3,7 +3,15 @@ import { CustomTableConfig } from "src/components/custom-table";
 import { IconButton, Stack } from "@mui/material";
 import { Clear, Edit } from "@mui/icons-material";
 
-const getDoctorConfigs = ():CustomTableConfig<Account["id"],Account>[] => [
+const getDoctorConfigs = (
+    {
+        editDoctor,
+        deleteDoctor,
+    }: {
+        editDoctor: (data: Account) => void;
+        deleteDoctor: (data: Account) => void;
+    }
+):CustomTableConfig<Account["id"],Account>[] => [
     {
         key: "doctor_code",
         headerLabel: "Mã bác sĩ",
@@ -47,12 +55,15 @@ const getDoctorConfigs = ():CustomTableConfig<Account["id"],Account>[] => [
                 paddingRight="25px"
             >
                 <IconButton color="warning">
-                    <Clear sx={{ height: "20px", width: "20px" }} />
+                    <Clear 
+                        sx={{ height: "20px", width: "20px" }} 
+                        onClick={() => deleteDoctor(data)}
+                    />
                 </IconButton>
                 <IconButton color="primary">
                     <Edit
                         sx={{ height: "20px", width: "20px" }}
-                        onClick={() => console.log(data)}
+                        onClick={() => editDoctor(data)}
                     />
                 </IconButton>
             </Stack>

@@ -2,9 +2,11 @@ import {FC} from 'react';
 import getDoctorConfigs from './doctor-table-config';
 import {Account} from 'src/types/account';
 import { CustomTable } from 'src/components/custom-table';
-import { Stack, styled, TableCell, TableRow, TextField, TextFieldProps } from '@mui/material';
+import { styled, TableCell, TableRow, TextField, TextFieldProps } from '@mui/material';
 import { useDrawer } from 'src/hooks/use-drawer';
-import CustomDrawer from 'src/components/custom-drawer';
+import { useDialog } from 'src/hooks/use-dialog';
+import { ConfirmDialog } from 'src/components/confirm-dialog';
+import AccountsEditDoctorDrawer from './account-edit-doctor-drawer';
 const NoLabelTextField = styled(TextField)<TextFieldProps>(() => ({
     "& .MuiInputBase-input.MuiFilledInput-input": {
       paddingTop: "8px",
@@ -21,8 +23,12 @@ export const AccountDoctorTable: FC<AccountDoctorTableProps> = ({
     onChangeFilter,
     accounts
 }) => {
+  const deleteDialog = useDialog<Account>();
   const editDialog = useDrawer<Account>();
-  const patientTableConfigs = getDoctorConfigs();
+  const patientTableConfigs = getDoctorConfigs({
+      editDoctor: (data: Account) => editDialog.handleOpen(data),
+      deleteDoctor: (data: Account) => deleteDialog.handleOpen(data),
+  });
     return (
        <>
         <CustomTable
@@ -112,37 +118,20 @@ export const AccountDoctorTable: FC<AccountDoctorTableProps> = ({
                 </TableRow>
               }
         />
-        <CustomDrawer
-            title='Chỉnh sửa bệnh nhân'
-            DrawerProps={
-              {
-                anchor: "right",
-                open: editDialog.open,
-                onClose: editDialog.handleClose,
-                sx: {
-                  width: 300,
-                },
-              }
-            }
-            onCancel={editDialog.handleClose}
-            onSubmit={() => {
-              console.log(editDialog.data);
-            }}
-            children = {
-              <Stack>
-                <TextField
-                  fullWidth
-                  label="Tên "
-                  value={editDialog.data?.name}
-                  // onChange={(e) =>
-                  //   editDialog.setData({
-                  //     ...editDialog.data,
-                  //     name: e.target.value,
-                  //   })
-                  // }
-                />      
-              </Stack>
-            }
+        <AccountsEditDoctorDrawer
+          open={editDialog.open}
+          onClose={editDialog.handleClose}
+          account={editDialog.data}
+        />
+        <ConfirmDialog
+          onConfirm={() => {
+            deleteDialog.data && deleteDialog.data.id;
+            deleteDialog.handleClose();
+          }}
+          open={deleteDialog.open}
+          onCancel={deleteDialog.handleClose}
+          title={`Xác nhận xóa bác sĩ ${deleteDialog.data?.name}`}
+          color='error'
         />
        </>
     );

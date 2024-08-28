@@ -2,9 +2,11 @@ import {FC} from 'react';
 import getMangerConfigs from "./manager-table-config"
 import {Account} from 'src/types/account';
 import { CustomTable } from 'src/components/custom-table';
-import { Stack, styled, TableCell, TableRow, TextField, TextFieldProps } from '@mui/material';
+import {styled, TableCell, TableRow, TextField, TextFieldProps } from '@mui/material';
 import { useDrawer } from 'src/hooks/use-drawer';
-import CustomDrawer from 'src/components/custom-drawer';
+import { useDialog } from 'src/hooks/use-dialog';
+import { ConfirmDialog } from 'src/components/confirm-dialog';
+import AccountsEditManagerDrawer from './account-manager-edit-drawer';
 const NoLabelTextField = styled(TextField)<TextFieldProps>(() => ({
     "& .MuiInputBase-input.MuiFilledInput-input": {
       paddingTop: "8px",
@@ -21,8 +23,12 @@ export const AccountManagerTable: FC<AccountManagerProps> = ({
     onChangeFilter,
     accounts
 }) => {
-  const editDialog = useDrawer<Account>();
-  const patientTableConfigs = getMangerConfigs();
+  const deleteDialog = useDialog<Account>();
+  const editDrawer = useDrawer<Account>();
+  const patientTableConfigs = getMangerConfigs({
+    editDrawer: (data: Account) => editDrawer.handleOpen(data),
+    deleteDialog: (data: Account) => deleteDialog.handleOpen(data),
+  });
     return (
        <>
         <CustomTable
@@ -77,38 +83,20 @@ export const AccountManagerTable: FC<AccountManagerProps> = ({
                 </TableRow>
               }
         />
-        <CustomDrawer
-            title='Chỉnh sửa bệnh nhân'
-            DrawerProps={
-              {
-                anchor: "right",
-                open: editDialog.open,
-                onClose: editDialog.handleClose,
-                sx: {
-                  width: 300,
-                },
-              }
-            }
-            onCancel={editDialog.handleClose}
-            onSubmit={() => {
-              console.log(editDialog.data);
-            }}
-            children = {
-              <Stack>
-                <TextField
-                  fullWidth
-                  label="Tên "
-                  value={editDialog.data?.name}
-                  // onChange={(e) =>
-                  //   editDialog.setData({
-                  //     ...editDialog.data,
-                  //     name: e.target.value,
-                  //   })
-                  // }
-                />      
-              </Stack>
-            }
+        <AccountsEditManagerDrawer
+            open={editDrawer.open}
+            onClose={editDrawer.handleClose}
+            account={editDrawer.data}
         />
+        <ConfirmDialog
+            open={deleteDialog.open}
+            onCancel={deleteDialog.handleClose}
+            onConfirm={() => {
+              console.log(deleteDialog.data);
+            }}
+            title={`Xác nhận xóa phòng khám ${deleteDialog.data?.name}`}
+            color='error'
+          />
        </>
     );
 }
