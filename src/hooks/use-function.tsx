@@ -46,11 +46,10 @@ function useFunction<P, T>(
   const [data, setStateData] = useState<T>();
 
   const { showSnackbarError, showSnackbarSuccess } = useAppSnackbar();
-  console.log(options)
+  // console.log(options)
   const onRequestSuccess = useCallback(
     async (result: T) => {
       if (options?.successMessage) {
-        // console.log(options?.successMessage)
         showSnackbarSuccess(options?.successMessage);
       }
       if (!options?.disableSaving) {

@@ -16,6 +16,20 @@ export interface Patient {
     gender: string,
     phone: string,
     status: string,
+    disease_detail?: object,
+}
+export const initialPatient: Patient = {
+    id: '',
+    patient_code: '',
+    consulting_day: '',
+    id_doctor: '',
+    doctor_name: '',
+    name: '',
+    age: 0,
+    address: '',
+    gender: '',
+    phone: '',
+    status: '',
 }
 export const patientFilterFunction = (
     patient: Patient,

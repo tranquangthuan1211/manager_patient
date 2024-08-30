@@ -7,6 +7,7 @@ import FlagIcon from '@mui/icons-material/Flag';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import DesignServicesIcon from '@mui/icons-material/DesignServices';
 export const getDashboardAdminConfigs: DashboardSection[] = [
     {
         subheader:'Admin', 
@@ -42,7 +43,7 @@ export const getDashboardAdminConfigs: DashboardSection[] = [
             {
                 title:"Dịch vụ",
                 path: Paths.dashboard["dich-vu"],
-                icon: <AccountTreeIcon sx = {{
+                icon: <DesignServicesIcon sx = {{
                     width: 20,
                 }}/>    
             },

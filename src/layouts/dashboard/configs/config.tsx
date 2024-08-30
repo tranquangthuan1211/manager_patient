@@ -1,6 +1,7 @@
 
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, use, useEffect, useState } from 'react';
 import {getDashboardAdminConfigs} from './dashboard-admin-config';
+import {getDashboardManagerConfigs} from './dashboard-manager-config';
 import { useAuth } from 'src/hooks/use-auth';
 export interface DashboardItem {
     disabled?: boolean;
@@ -24,8 +25,10 @@ export const useSections = (): DashboardSection[] => {
     async function fetchSections() {
     
       let configs: DashboardSection[] = [];
-      if (user?.role === "admin" || user?.role === "manager") {
+      if (user?.role === "admin") {
         configs = getDashboardAdminConfigs;
+      }else if(user?.role === "manager"){
+        configs = getDashboardManagerConfigs;
       }
       setSections(configs);
     }

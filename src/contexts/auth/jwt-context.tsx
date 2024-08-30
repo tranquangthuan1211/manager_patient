@@ -205,7 +205,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
           // !router.pathname.startsWith("/can-bo") &&
           // officerUnitType == "Phòng"
         ) {
-          router.replace('/quan-ly');
+          router.replace('/');
         }
       } else {
         dispatch({

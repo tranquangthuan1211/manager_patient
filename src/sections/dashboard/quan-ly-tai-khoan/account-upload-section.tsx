@@ -184,6 +184,7 @@ export const AccountUploadSection = ({
       }));
   }, [fileData, type]);
   // getErrorString, listUnits
+  console.log(accounts)
     return (
       <CustomDrawer
         title="thêm tài khoản mới"

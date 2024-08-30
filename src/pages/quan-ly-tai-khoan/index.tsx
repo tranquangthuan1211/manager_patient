@@ -1,4 +1,4 @@
-import {use, useState} from 'react';
+import {useState} from 'react';
 import {Layout} from 'src/layouts';
 import { type Page as PageType } from 'src/types/page';
 import {Stack,Box, Button, Tabs, Tab} from '@mui/material';
@@ -8,10 +8,10 @@ import AccountPatient from 'src/sections/dashboard/quan-ly-tai-khoan/account-pat
 import { useDrawer } from 'src/hooks/use-drawer';
 import {AccountUploadSection} from 'src/sections/dashboard/quan-ly-tai-khoan/account-upload-section';
 import AccountDoctor from 'src/sections/dashboard/quan-ly-tai-khoan/account-doctor-management';
-import UsersProvider from 'src/contexts/users/users-context';
 import AccountProvider from 'src/contexts/accounts/account-context';
 import  AccountManager from "src/sections/dashboard/quan-ly-tai-khoan/account-manager-management"
 import { useAuth } from 'src/hooks/use-auth';
+import PermissionPage from 'src/components/permision-page';
 let tabs = [
     {
       label: "Tài khoản bệnh nhân",
@@ -24,10 +24,14 @@ let tabs = [
 ];
 const Page: PageType = () => {
     const {user} = useAuth();
-    console.log(user?.role);
     const [type, setType] = useState("patient");
     const [tab, setTab] = useState(tabs[0].key);
     const uploadDrawer = useDrawer();
+    if(user?.role !== "admin"){
+      return (
+        <PermissionPage/>
+      )
+    }
     return (
     <Stack>
         <ContentHeader
