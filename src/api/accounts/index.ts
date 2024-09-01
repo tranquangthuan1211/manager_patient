@@ -8,10 +8,20 @@ class AccountApi {
 
         return response;
     }
-    async createPatients(
-        request: Omit<Account, "id">
-    ): Promise<void> {
-        return await apiPost("/users", request);
+    async createAccount(
+        request: Partial<Account>
+    ):Promise<{error:number,message:string, data:any}>{
+        try {
+            return await apiPost("/users", request);
+        } catch (error) {
+            // console.log(error)
+            throw new Error(error.message);
+        }
+    }
+    async createManyAccounts(
+        request:Partial<Account[]>
+    ) {
+        return await apiPost("/users/many", {data: request});
     }
     async updateAccount(request: Partial<Account>) {
         return await apiPut(`/users/${request.id}`, request);

@@ -1,13 +1,15 @@
 import { createContext, ReactNode, useEffect, useContext, use, useCallback } from "react";
 import useFunction,{UseFunctionReturnType, DEFAULT_FUNCTION_RETURN} from "src/hooks/use-function";
-import { Account } from "src/types/account";
+import { Account, initialAccount } from "src/types/account";
 import AccountApi from "src/api/accounts";
 import { getFormData } from "src/api/api-requests";
+import useAppSnackbar from "src/hooks/use-app-snackbar";
 interface contextValue {
     getAccountPatients : UseFunctionReturnType<FormData, any>;
     getAccountDoctors : UseFunctionReturnType<FormData, any>;
     getAccountManagers : UseFunctionReturnType<FormData, any>;
-    createAccount?: (requests: Partial<Account>) => Promise<void>;
+    createAccount: (requests: Partial<Account>) => Promise<void>;
+    createAccounts: (requests: Partial<Account[]>) => Promise<void>;
     updateAccount: (account: Partial<Account>) => Promise<void>;
     deleteAccount: (id: string, role: string) => Promise<void>;
 }
@@ -16,15 +18,136 @@ export const AccountContext = createContext<contextValue>({
     getAccountPatients: DEFAULT_FUNCTION_RETURN,
     getAccountDoctors: DEFAULT_FUNCTION_RETURN,
     getAccountManagers: DEFAULT_FUNCTION_RETURN,
+    createAccount: async () => {},
+    createAccounts: async () => {},
     updateAccount: async () => {},
     deleteAccount: async () => {}
 });
 
 const AccountProvider = ({ children }:{ children: ReactNode }) => {
+    const { showSnackbarError, showSnackbarSuccess } = useAppSnackbar();
     const getAccountPatients = useFunction(AccountApi.getAccount);
     const getAccountDoctors = useFunction(AccountApi.getAccount);
     const getAccountManagers = useFunction(AccountApi.getAccount);
-
+    const createAccount = useCallback(
+        async(request: Partial<Account>) => {
+            try{
+                const response = await AccountApi.createAccount(request);
+                // if(response.error !== 0) {
+                //     console.log(response.message);  
+                //     showSnackbarError(response.message);
+                //     return;
+                // } 
+                if(response) {
+                    if(request.role === "patient") {
+                        const newAccount = [
+                            {
+                                ...initialAccount,
+                                ...request,
+                                ...response
+                            },
+                            ...(getAccountPatients.data?.data || [])
+                        ];
+                        getAccountPatients.setData({
+                            data: newAccount
+                        });
+                    }
+                    if(request.role === "doctor") {
+                        const newAccount = [
+                            {
+                                ...initialAccount,
+                                ...request,
+                                ...response
+                            },
+                            ...(getAccountDoctors.data?.data || [])
+                        ];
+                        getAccountDoctors.setData({
+                            data: newAccount
+                        });
+                    }
+                    if(request.role === "manager") {
+                        const newAccount = [
+                            {
+                                ...initialAccount,
+                                ...request,
+                                ...response
+                            },
+                            ...(getAccountManagers.data?.data || [])
+                        ];
+                        getAccountManagers.setData({
+                            data: newAccount
+                        });
+                    }
+                }
+            }
+            catch(error){
+                console.log(error)
+                showSnackbarError(error.message);
+            }
+        },
+    [
+        getAccountPatients,
+        getAccountDoctors,
+        getAccountManagers
+    ]);
+    const createAccounts = useCallback(
+        async(request: Partial<Account[]>) => {
+            try{
+                const response = await AccountApi.createManyAccounts(request);
+                if (response) {
+                    if (request[0]?.role === "patient") {
+                      const newAccount = [
+                        {
+                          ...initialAccount,
+                          ...request,
+                          ...response,
+                        },
+                        ...(getAccountPatients.data?.data || []),
+                      ];
+                      getAccountPatients.setData({
+                        data: newAccount,
+                      });
+                    }
+          
+                    if (request[0]?.role === "doctor") {
+                      const newAccount = [
+                        {
+                          ...initialAccount,
+                          ...request,
+                          ...response,
+                        },
+                        ...(getAccountDoctors.data?.data || []),
+                      ];
+                      getAccountDoctors.setData({
+                        data: newAccount,
+                      });
+                    }
+          
+                    if (request[0]?.role === "manager") {
+                      const newAccount = [
+                        {
+                          ...initialAccount,
+                          ...request,
+                          ...response,
+                        },
+                        ...(getAccountManagers.data?.data || []),
+                      ];
+                      getAccountManagers.setData({
+                        data: newAccount,
+                      });
+                    }
+                  }
+            }
+            catch(err){
+                throw err;
+            }
+        },
+        [
+            getAccountPatients,
+            getAccountDoctors,
+            getAccountManagers
+        ]
+    );
     const updateAccount = useCallback(
         async(account: Partial<Account>) => {
             try{
@@ -62,8 +185,8 @@ const AccountProvider = ({ children }:{ children: ReactNode }) => {
                     }
                 }
             }
-            catch(err){
-                throw err;
+            catch(error:any){
+                showSnackbarError(error.message);
             }
         },
         [
@@ -112,6 +235,8 @@ const AccountProvider = ({ children }:{ children: ReactNode }) => {
                 getAccountPatients,
                 getAccountDoctors,
                 getAccountManagers,
+                createAccount,
+                createAccounts,
                 updateAccount,
                 deleteAccount
             }}

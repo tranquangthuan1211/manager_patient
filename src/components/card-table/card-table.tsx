@@ -48,7 +48,7 @@ export function CardTable<P, T extends { id: P; [key: string]: any }>(
     loading,
     flexible,
   } = props;
-
+  console.log(rows)
   const [sortModel, setSortModel] = useState<CardTableSortModel<P, T>>();
   const [isMounted, setIsMounted] = useState(false);
 

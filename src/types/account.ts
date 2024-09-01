@@ -29,5 +29,5 @@ export const initialAccount: Account = {
   createdAt: "",
   deletedAt: "",
   gender: "",
-  phone: ""
+  phone: "",
 }

@@ -75,6 +75,12 @@ export const accountUploadDoctorTableConfig: CardTableConfig<Account["id"], Acco
 ];
 export const accountUploadPatientConfig: CardTableConfig<Account["id"], Account>[] = [
     {
+      key: "patient_code",
+      headerLabel: "Mã bệnh nhân",
+      type: "string",
+      renderEditingCell: CardTableEditCellTextfield,
+    },
+    {
       key: "name",
       headerLabel: "Họ tên",
       type: "string",
@@ -87,8 +93,20 @@ export const accountUploadPatientConfig: CardTableConfig<Account["id"], Account>
       renderEditingCell: CardTableEditCellTextfield,
     },
     {
+      key: "id_doctor",
+      headerLabel: "Bác sĩ",
+      type: "string",
+      renderEditingCell: CardTableEditCellTextfield,
+    },
+    {
       key:"address",
       headerLabel:"Địa chỉ",
+      type:"string",
+      renderEditingCell: CardTableEditCellTextfield,
+    },
+    {
+      key:"age",
+      headerLabel:"Tuổi",
       type:"string",
       renderEditingCell: CardTableEditCellTextfield,
     },

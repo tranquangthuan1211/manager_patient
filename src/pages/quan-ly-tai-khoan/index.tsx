@@ -12,6 +12,7 @@ import AccountProvider from 'src/contexts/accounts/account-context';
 import  AccountManager from "src/sections/dashboard/quan-ly-tai-khoan/account-manager-management"
 import { useAuth } from 'src/hooks/use-auth';
 import PermissionPage from 'src/components/permision-page';
+import {AccountAddDrawer} from 'src/sections/dashboard/quan-ly-tai-khoan/account-add-drawer';
 let tabs = [
     {
       label: "Tài khoản bệnh nhân",
@@ -27,6 +28,7 @@ const Page: PageType = () => {
     const [type, setType] = useState("patient");
     const [tab, setTab] = useState(tabs[0].key);
     const uploadDrawer = useDrawer();
+    const accountsAddDrawer = useDrawer();
     if(user?.role !== "admin"){
       return (
         <PermissionPage/>
@@ -56,7 +58,7 @@ const Page: PageType = () => {
                       setType("doctor");
                     }
                     else {
-                      setType("user");
+                      setType("patient");
                     }
                     uploadDrawer.handleOpen();
                   }}
@@ -69,7 +71,7 @@ const Page: PageType = () => {
                   color="primary"
                   startIcon={<Add />}
                   onClick={() => {
-                    // accountsAddDrawer.handleOpen();
+                    accountsAddDrawer.handleOpen();
                   }}
                 >
                   Thêm tài khoản
@@ -118,6 +120,10 @@ const Page: PageType = () => {
               open={uploadDrawer.open}
               onClose={uploadDrawer.handleClose}
               type={type}
+        />
+        <AccountAddDrawer
+            open={accountsAddDrawer.open}
+            onClose={accountsAddDrawer.handleClose}
         />  
     </Stack>
     )

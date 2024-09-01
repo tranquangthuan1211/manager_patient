@@ -11,7 +11,7 @@ class UserApi {
     async signIn(request: SignInRequest): SignInResponse {
         return await apiPost("/users/login", request);
       }
-    async signUp(request: SignUpRequest): SignUpResponse {
+    async signUp(request: SignUpRequest): Promise<{error:number,message:string, data:any}> {
         return await apiPost("/users", request);
       }
     async me(): Promise<{data:User}> {

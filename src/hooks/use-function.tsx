@@ -94,7 +94,7 @@ function useFunction<P, T>(
         }
         if (!options?.hideSnackbarError) {
           if (options?.getErrorMessage) {
-            showSnackbarError(options.getErrorMessage(error));
+            (options.getErrorMessage(error));
           } else {
             if (error) {
               showSnackbarError(error);

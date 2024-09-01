@@ -5,20 +5,24 @@ export const configExcelPatient: ImportXLSXConfig = {
       labels: ["họ tên", "tên", "họ và tên"],
       type: "string",
     },
-    student_id: {
-      labels: ["mã bệnh nhân", "mã", "msbn"],
+    address: {
+      labels: ["địa chỉ"],
       type: "string",
     },
-    doctor_id: {
+    age: {
+      labels: ["tuổi bệnh nhân", "tuổi"],
+      type: "number",
+    },
+    gender: {
+      labels: ["giới tính"],
+      type: "string",
+    },
+    id_doctor: {
       labels: ["mã bác sĩ", "bác sĩ"],
       type: "string",
     },
-    manager_id:{
+    id_manager:{
       labels: ["mã quản trị viên"],
-      type: "string",
-    },
-    address: {
-      labels: ["Địa chỉ"],
       type: "string",
     },
     phone: {

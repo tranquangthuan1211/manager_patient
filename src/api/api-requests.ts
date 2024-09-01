@@ -57,11 +57,17 @@ const apiFetch = async (
 export const apiPost = async (query: string, body: any) => {
   const isFormData = body instanceof FormData;
   const headers = await getRequestHeaders("POST", isFormData);
-  return await apiFetch(getRequestUrl(query), {
-    method: "POST",
-    headers,
-    body: isFormData ? body : JSON.stringify(body),
-  });
+  try {
+    return await apiFetch(getRequestUrl(query), {
+      method: "POST",
+      headers,
+      body: isFormData ? body : JSON.stringify(body),
+    });
+  }
+  catch (error) {
+    // console.log(error)
+    throw new Error(error.message)
+  }
 };
 
 export const apiDelete = async (query: string, body: any) => {

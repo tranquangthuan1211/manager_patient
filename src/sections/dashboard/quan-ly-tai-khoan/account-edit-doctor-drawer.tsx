@@ -54,9 +54,6 @@ function AccountsEditDoctorDrawer({
     setTab(tabs[0].key);
   };
 
-//   const { createAccount, updateAccount, getAccountsOfficerApi } =
-//     useAccountContext();
-
   const handleSubmit = useCallback(
     async (values: Account) => {
       if (values?.id) {
