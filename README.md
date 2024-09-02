@@ -39,8 +39,9 @@
 1. Sử dụng NextJs 13
 2. Cung cấp đường dẫn API để chạy và kiểm tra các hoạt động của trang web
 ### cách chạy
-1. mở terminal và clone git@github.com:tranquangthuan1211/manager_patient.git
+1. mở terminal và [Clone](git@github.com:tranquangthuan1211/manager_patient.git)
 2. cd đến thư mục chứa dự án 
 3. npm i hoặc yarn 
 4. npm run dev hoặc yarn run dev
+
 **Lưu ý**: Đây là dự án cá nhân của mình và đang phát triển thêm và nó chỉ mang tính chất tham khảo.
