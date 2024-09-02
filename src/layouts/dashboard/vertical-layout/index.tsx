@@ -9,6 +9,8 @@ import { useMediaQuery } from "@mui/material";
 import {useMobileNav} from "./use-mobile-nav";
 import { MobileNav } from "../mobile-nav";
 import {TopNav} from "./top-nav";
+import { useAuth } from "src/hooks/use-auth";
+import {MobileNavPatient} from "../mobile-nav-patient"
 
 const SIDE_NAV_WIDTH: number = 280;
 
@@ -38,11 +40,18 @@ export const VerticalLayout: FC<VerticalLayoutProps> = (props) => {
   const { children, sections, navColor } = props;
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("lg"));
   const mobileNav = useMobileNav()
+  const {user} = useAuth();
   return (
     <>
+      {!lgUp && user.role === "patient" &&
+        (<MobileNavPatient  
+          color={navColor} 
+          onClose={mobileNav.handleClose} 
+          open={mobileNav.open} 
+          sections={sections} />)}
       {lgUp && (<SideNav color={navColor} sections={sections} />)}
-      {!lgUp && (<TopNav onMobileNavOpen={mobileNav.handleOpen} />)}
-      {!lgUp && (
+      {!lgUp && user.role !== "patient" && (<TopNav onMobileNavOpen={mobileNav.handleOpen} />)}
+      {!lgUp && user.role !== "patient" && (
           <MobileNav
             color={navColor}
             onClose={mobileNav.handleClose}
@@ -50,15 +59,7 @@ export const VerticalLayout: FC<VerticalLayoutProps> = (props) => {
             sections={sections}
           />
         )}
-        <VerticalLayoutRoot
-          // sx={{
-          //   width: {
-          //     xs: "auto",
-          //     lg: "200px",
-          //   },
-          // }}
-        >
-          {/* <TopNav /> */}
+        <VerticalLayoutRoot>
           <VerticalLayoutContainer>{children}</VerticalLayoutContainer>
         </VerticalLayoutRoot>
     </>

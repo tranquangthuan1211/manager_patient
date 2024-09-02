@@ -19,6 +19,7 @@ function ContentHeader({
         paddingTop: "24px",
         paddingLeft: "24px",
         paddingRight: "24px",
+        paddingBottom: "16px",
         borderRadius: 0,
       }}
     >

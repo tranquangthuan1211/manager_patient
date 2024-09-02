@@ -47,7 +47,15 @@ export const PatientTableDetail: FC<PatientDetailProps> = ({
                         },
                     }}
                     >
-                    <TableCell />
+                    <TableCell align="center">
+                        <NoLabelTextField
+                        fullWidth
+                        value={filter.patient_code}
+                        onChange={(e) =>
+                            onChangeFilter({ ...filter, patient_code: e.target.value })
+                        }
+                        ></NoLabelTextField>
+                    </TableCell>
         
                     <TableCell align="center">
                         <NoLabelTextField
@@ -84,8 +92,30 @@ export const PatientTableDetail: FC<PatientDetailProps> = ({
                         }
                         ></NoLabelTextField>
                     </TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
+                    <TableCell align="center">
+                        <NoLabelTextField
+                        fullWidth
+                        // value={filter.address}
+                        onChange={(e) =>
+                            onChangeFilter({
+                            ...filter,
+                            address: e.target.value,
+                            })
+                        }
+                        ></NoLabelTextField>
+                    </TableCell>
+                    <TableCell align="center">
+                        <NoLabelTextField
+                        fullWidth
+                        value={filter.address}
+                        onChange={(e) =>
+                            onChangeFilter({
+                            ...filter,
+                            address: e.target.value,
+                            })
+                        }
+                        ></NoLabelTextField>
+                    </TableCell>
                     <TableCell align="center"></TableCell>
                     <TableCell align="center"></TableCell>
                 </TableRow>

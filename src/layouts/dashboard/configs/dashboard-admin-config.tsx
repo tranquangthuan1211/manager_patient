@@ -8,6 +8,7 @@ import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
+import { FaUserDoctor } from "react-icons/fa6";
 export const getDashboardAdminConfigs: DashboardSection[] = [
     {
         subheader:'Admin', 
@@ -33,6 +34,11 @@ export const getDashboardAdminConfigs: DashboardSection[] = [
                     width: 20,
                 }}/>
             }, 
+            {
+                title: "Bác sĩ",
+                path: Paths.dashboard["bac-si"],
+                icon: <FaUserDoctor width={20}/>
+            },
             {
                 title:"Quản lý khiếu nại",
                 path: Paths.dashboard["quan-ly-khieu-nai"],
