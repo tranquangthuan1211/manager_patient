@@ -79,10 +79,9 @@ const [displayPassword, setDisplayPassword] = useState(false);
                                 }}
                             >
                                 <Logo />
-                                <Typography variant="h6">MED</Typography>
                             </Box>
                             <Box>
-                                <Typography variant="h6">MED_Chăm sóc sức khoẻ</Typography>
+                                <Typography variant="h6">MDE_Chăm sóc sức khoẻ</Typography>
                                 <Typography variant="body2">Hệ thống chăm sóc sức khoẻ</Typography>
                             </Box>
                         </Stack>

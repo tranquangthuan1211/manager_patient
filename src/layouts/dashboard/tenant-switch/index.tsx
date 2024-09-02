@@ -27,7 +27,7 @@ export const TenantSwitch: FC<TenantSwitchProps> = (props) => {
       <Stack alignItems="center" direction="row" spacing={2} {...props}>
         <Box sx={{ flexGrow: 1 }}>
           <Typography color="inherit" variant="subtitle1" fontWeight="bold">
-            MDE - Chăm Sóc Sức Khỏe
+            Chăm Sóc Sức Khỏe
           </Typography>
           <Typography
             color="neutral.400"

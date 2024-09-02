@@ -43,15 +43,15 @@ export const VerticalLayout: FC<VerticalLayoutProps> = (props) => {
   const {user} = useAuth();
   return (
     <>
-      {!lgUp && user.role === "patient" &&
+      {!lgUp && user?.role === "patient" &&
         (<MobileNavPatient  
           color={navColor} 
           onClose={mobileNav.handleClose} 
           open={mobileNav.open} 
           sections={sections} />)}
       {lgUp && (<SideNav color={navColor} sections={sections} />)}
-      {!lgUp && user.role !== "patient" && (<TopNav onMobileNavOpen={mobileNav.handleOpen} />)}
-      {!lgUp && user.role !== "patient" && (
+      {!lgUp && user?.role !== "patient" && (<TopNav onMobileNavOpen={mobileNav.handleOpen} />)}
+      {!lgUp && user?.role !== "patient" && (
           <MobileNav
             color={navColor}
             onClose={mobileNav.handleClose}
