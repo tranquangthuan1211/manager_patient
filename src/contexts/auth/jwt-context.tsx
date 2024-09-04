@@ -259,12 +259,12 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
       phone: string,
       password: string
     ): Promise<void> => {
-      const { accessToken } = await UsersApi.signUp({
-        email,
-        name,
-        password,
-        phone,
-      });
+      // const { accessToken } = await UsersApi.signUp({
+      //   email,
+      //   name,
+      //   password,
+      //   phone,
+      // });
       // const user = await UsersApi.me({ accessToken });
 
       // sessionStorage.setItem(STORAGE_KEY, accessToken);
