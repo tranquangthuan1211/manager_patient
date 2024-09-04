@@ -18,8 +18,12 @@ const AccountPatient = ({
 }: AccountPatientProps) => {
     const {getAccountPatients} = useAccount();
     const listAccountsPatient = useMemo(() => {
-      return getAccountPatients.data?.data || [];
-    },[getAccountPatients.data])
+      return (getAccountPatients.data?.data || []);
+    },[getAccountPatients])
+    // useEffect(() => {
+    //   console.log(getAccountPatients.data)
+    //   console.log(getAccountPatients.loading)
+    // },[listAccountsPatient])
     // useEffect(() => {
     //   console.log(getAccountPatients)
     // },[listAccountsPatient])

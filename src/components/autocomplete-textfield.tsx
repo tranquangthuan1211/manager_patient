@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import Autocomplete, {
   AutocompleteRenderInputParams,
@@ -6,7 +6,7 @@ import Autocomplete, {
 import { Popper } from "@mui/material";
 
 interface Props {
-  value?: any;
+  value: any;
   options: { value: any; label: string }[];
   onChange: (value: any) => void;
   TextFieldProps: TextFieldProps;
@@ -14,7 +14,7 @@ interface Props {
   freeSolo?: boolean;
 }
 
-const _AutocompleteTextField: React.FC<Props> = ({
+const AutocompleteTextField: React.FC<Props> = ({
   value,
   options,
   onChange,
@@ -91,7 +91,7 @@ const _AutocompleteTextField: React.FC<Props> = ({
       getOptionLabel={(option) =>
         typeof option == "string" ? "Enter" : option.label
       }
-      value={options.find((option) => option.value == value) || null}
+      value={options.find((option) => option.value == value)}
       renderInput={renderInput}
       onChange={handleOptionChange}
       disabled={disabled}
@@ -103,7 +103,7 @@ const _AutocompleteTextField: React.FC<Props> = ({
           {...props}
           sx={{
             ...props.sx,
-            zIndex: (theme) => theme.zIndex.drawer + 10 + " !important",
+            zIndex: (theme) => theme.zIndex.modal + 10 + " !important",
           }}
         ></Popper>
       )}
@@ -111,5 +111,4 @@ const _AutocompleteTextField: React.FC<Props> = ({
   );
 };
 
-const AutocompleteTextField = memo(_AutocompleteTextField);
 export default AutocompleteTextField;

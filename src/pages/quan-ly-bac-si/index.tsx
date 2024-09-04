@@ -5,19 +5,21 @@ import DiseaseProvider, {useDiseaseContext} from 'src/contexts/diseases/disease-
 import {Layout} from 'src/layouts';
 import { Button, Stack, Box, TablePagination } from '@mui/material';
 import { Add, UploadFile } from '@mui/icons-material';
-import { useMemo } from 'react';
-import {PatientTableDetail} from 'src/sections/dashboard/chi-tiet-benh-nhan/patient-table-detail';
+import { use, useEffect, useMemo } from 'react';
 import usePagination from 'src/hooks/use-pagination'
+import DoctorProvider, { useDoctorsContext } from 'src/contexts/doctors/doctor-context';
+import {DoctorTable} from  'src/sections/dashboard/quan-ly-bac-si/doctor-table'
 const Page:PageType = () => {
-    // const {getPatientsApi} = usePatientsContext()
-    const {getDiseasesApi} = useDiseaseContext()
-    const {getPatientsApi} = usePatientsContext()
-    const patients = useMemo(() => {
-      return getPatientsApi.data || [];
-    },[getPatientsApi])
-    const data = useMemo(() => {
-        return getDiseasesApi.data || [];
-    },[getDiseasesApi])
+    const {getDoctorsApi} = useDoctorsContext()
+    const doctors = useMemo(() =>{
+
+      return getDoctorsApi.data || []
+    },
+    [getDoctorsApi.data]);
+    useEffect(() => {
+      console.log(getDoctorsApi)
+      console.log(doctors)
+    }, [doctors]);
     const pagination = usePagination({ count: 20 });
     // console.log(data)
     return (
@@ -70,7 +72,11 @@ const Page:PageType = () => {
                 </Box>
               }
             />
-            
+            <DoctorTable 
+              filter={{}}
+              onChangeFilter={() => {}}
+              doctors={doctors} 
+            />
             <TablePagination
               component="div"
               {...pagination}
@@ -90,11 +96,9 @@ const Page:PageType = () => {
 }
 Page.getLayout = (page) => 
   <Layout>
-    <PatientProvider>
-      <DiseaseProvider>
-        {page}
-      </DiseaseProvider>
-    </PatientProvider>
+    <DoctorProvider>
+      {page}
+    </DoctorProvider>
   </Layout>
 
 export default Page;
