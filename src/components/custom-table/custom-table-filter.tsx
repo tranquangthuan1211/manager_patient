@@ -179,31 +179,10 @@ function CustomTableFilter<T, P extends FilterType>({
               />
             </TableCell>
           );
-        } else if (config.type === "datepicker") {
+        }
+        else if (config.type === "datetimepicker") {
           return (
-            <TableCell 
-              key={String(config.key)} 
-              align="center"
-            >
-              <CustomStyledDatePicker
-                {...config.ComponentProps}
-                value={
-                  filter[config.key]
-                    ? new Date(filter[config.key] as string | number)
-                    : null
-                }
-                onChange={(value) =>
-                  onChange({ ...filter, [config.key]: value })
-                }
-              />
-            </TableCell>
-          );
-        } else if (config.type === "datetimepicker") {
-          return (
-            <TableCell 
-              key={String(config.key)} 
-              align="center"
-            >
+            <TableCell key={String(config.key)} align="center">
               <DateTimePicker
                 {...config.ComponentProps}
                 value={
