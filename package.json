@@ -51,6 +51,7 @@
     "recharts": "^2.12.7",
     "simplebar-react": "3.2.4",
     "slick-carousel": "^1.8.1",
+    "swiper": "^11.1.12",
     "uuidv4": "^6.2.13",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz",
     "xlsx-populate": "^1.21.0",

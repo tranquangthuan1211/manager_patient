@@ -12,6 +12,9 @@ export type SignUpRequest = {
     name: string;
     password: string;
     phone: string;
+    address: string;
+    age: string;
+    position: string;
   };
 export type SignUpResponse = Promise<{
     accessToken: string;

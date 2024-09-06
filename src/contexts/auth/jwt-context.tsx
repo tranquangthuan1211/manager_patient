@@ -123,11 +123,14 @@ export interface AuthContextType extends State {
   updateUser: (user: Partial<User>) => void;
   signIn: (email: string, password: string) => Promise<User | undefined>;
   signUp: (
-    email: string,
     name: string,
-    phone: string,
-    password: string
-  ) => Promise<void>;
+    email: string,
+    password: string,
+    address:string,
+    phone:string,
+    age:string,
+    position: string
+  ) => Promise<{message: string} | undefined>;
   signOut: () => Promise<void>;
 }
 
@@ -136,7 +139,7 @@ export const AuthContext = createContext<AuthContextType>({
   updateUser: () => {},
   issuer: Issuer.JWT,
   signIn: () => Promise.resolve(undefined),
-  signUp: () => Promise.resolve(),
+  signUp: () => Promise.resolve(undefined),
   signOut: () => Promise.resolve(),
 });
 
@@ -178,31 +181,32 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
             user,
           },
         });
-        // const officerUnitType = await getOfficerUnitType(user);
+        console.log(user)
         if (
           (user.role == "admin") 
-          // &&
-          // !router.pathname.startsWith("/dashboard")
+          &&
+          !router.pathname.startsWith("/")
         ) {
           router.replace("/");
         } else if (
           user.role == "patient" 
-          // &&
-          // !router.pathname.startsWith("/can-bo") &&
-          // officerUnitType == "Phòng"
+          &&
+          !router.pathname.startsWith("/benh-nhan") 
         ) {
           router.replace('/benh-nhan');        
         } else if (
           user.role == "doctor" 
+          &&
+          !router.pathname.startsWith("/bac-si") 
           // &&
-          // !router.pathname.startsWith("/can-bo") &&
           // officerUnitType == "Phòng"
         ) {
           router.replace('/bac-si');
         }else if (
           user.role == "manager" 
+          &&
+          !router.pathname.startsWith("/") 
           // &&
-          // !router.pathname.startsWith("/can-bo") &&
           // officerUnitType == "Phòng"
         ) {
           router.replace('/');
@@ -254,27 +258,34 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
 
   const signUp = useCallback(
     async (
-      email: string,
       name: string,
-      phone: string,
-      password: string
-    ): Promise<void> => {
-      // const { accessToken } = await UsersApi.signUp({
-      //   email,
-      //   name,
-      //   password,
-      //   phone,
-      // });
-      // const user = await UsersApi.me({ accessToken });
+      email: string,
+      password: string,
+      address:string,
+      phone:string,
+      age:string,
+      position: string
+    ): Promise<{message: string}> => {
+      const { data, message } = await UsersApi.signUp({
+        name,
+        email,
+        password,
+        address,
+        phone,
+        age,
+        position,
+      });
+      const accessToken = data.accessToken as string;
+      CookieHelper.setItem(CookieKeys.TOKEN, data.accessToken);
+      const user = await UsersApi.me();
 
-      // sessionStorage.setItem(STORAGE_KEY, accessToken);
-
-      // dispatch({
-      //   type: ActionType.SIGN_UP,
-      //   payload: {
-      //     user,
-      //   },
-      // });
+      dispatch({
+        type: ActionType.SIGN_UP,
+        payload: {
+          user: user.data,
+        },
+      });
+      return {message};
     },
     []
   );

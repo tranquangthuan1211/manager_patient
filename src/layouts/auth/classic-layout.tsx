@@ -1,5 +1,3 @@
-import { GuestGuard } from "src/guards/guest-guard";
-import { Page as PageType } from "../../types/page";
 import {Stack,styled,Box, Container} from '@mui/material';
 import {FC, ReactNode} from 'react';
 
@@ -33,7 +31,7 @@ export const Layout:FC<LayoutProps> = (props) => {
                         top: 0,
                         left: 0,
                         width: "100%",
-                        height: "100%",
+                        height: "140%",
                         backgroundImage: "url(/background.jpg)",
                         backgroundSize: "cover",
                         backgroundRepeat: "no-repeat",
@@ -50,7 +48,7 @@ export const Layout:FC<LayoutProps> = (props) => {
                         },
                         px:"6px",
                         zIndex: 1,
-                        width: "500px",
+                        width: "640px",
                     }}
                 >
                     {children}

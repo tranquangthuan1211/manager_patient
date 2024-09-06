@@ -19,9 +19,8 @@ export const Paths = {
       "settings":'/settings'
     },
     doctor:{
-
     },
     patient:{
-      
+      "benh-nhan":"/benh-nhan",
     }
 }

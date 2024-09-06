@@ -1,73 +1,74 @@
-import { GuestGuard } from "src/guards/guest-guard";
-import type { Page as PageType } from "../../types/page";
-import { Layout } from "src/layouts/auth/classic-layout";
-import { Box,
-    Stack, Typography, TextField, Card, CardContent, 
-    MenuItem,
-    Link,
-    Button,
-    IconButton,
-    FormHelperText} from "@mui/material";
+import {Page as PageType} from 'src/types/page';
+import { Layout } from 'src/layouts/auth/classic-layout';
+import { GuestGuard } from 'src/guards/guest-guard';
+import { Issuer } from "src/utils/auth";
+import { IssuerGuard } from "src/guards/issuer-guard";
+import { Box, Button, Card, CardContent, FormHelperText, IconButton, Link, MenuItem, Stack, TextField, Typography } from '@mui/material';
+import Logo from 'src/components/logo';
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import { useState } from 'react';
+import { useAuth } from 'src/hooks/use-auth';
+import { useMounted } from 'src/hooks/use-mounted';
 import PersonIcon from '@mui/icons-material/Person';
-import Logo from "src/components/logo";
-import { use, useState } from "react";
-import { useAuth } from "src/hooks/use-auth";
-import {AuthContextType} from "src/contexts/auth/jwt-context";
-import { Layout as AuthLayout } from "src/layouts/auth/classic-layout";
-import { Issuer } from "src/utils/auth";
-import { IssuerGuard } from "src/guards/issuer-guard";
-import { useRouter } from "next/router";
-import { useMounted } from "src/hooks/use-mounted";
-import useAppSnackbar from "src/hooks/use-app-snackbar";
+const validationSchema = Yup.object().shape({
+    email: Yup.string().email("vui ").max(255).required("Email is required"),
+    password: Yup.string().max(255).required("Password is required"),
+    // passwordAgain: Yup.string()
+    //     .oneOf([Yup.ref('password')], "Passwords phải khớp")
+    //     .required("Vui lòng nhập lại password"), 
+})
 interface Values {
+    name: string;
     email: string;
     password: string;
-    position: string;
+    // passwordAgain:string;
+    address:string;
+    phone:string;
+    age:string;
+    role: string;
     submit: null;
+}
+const initialValues: Values = {
+    name: "",
+    email: "",
+    password: "",
+    address:"",
+    phone:"",
+    age:"",
+    role: "doctor",
+    submit: null,
 }
 const choosePosition = [
     {key:"doctor", value:"Bác sĩ"},
     {key:"paitent", value:"Bệnh nhân"},
 ]
-const initialValues: Values = {
-    email: "",
-    password: "",
-    position: "doctor",
-    submit: null,
-}
-const validationSchema = Yup.object().shape({
-    email: Yup.string().email("vui ").max(255).required("Email is required"),
-    password: Yup.string().max(255).required("Password is required"),
-})
-const Page: PageType = () => {
-    const {showSnackbarSuccess} = useAppSnackbar()
-    const router = useRouter();
-    const { signIn } = useAuth<AuthContextType>();
+const Page:PageType = () => {
+    const [displayPassword, setDisplayPassword] = useState<Boolean>(false)
+    const {signUp} = useAuth()
     const isMounted = useMounted();
     const forkmik = useFormik({
         initialValues,
         validationSchema,
         onSubmit: async (value, helpers) => {
             try{
-                const result = await signIn(value.email, value.password)
-                console.log(result)
-                if(result && isMounted()){
-                    showSnackbarSuccess("Đăng nhập thành công")
-                    if(result.role == "doctor"){
-                        router.replace("/bac-si")
-                    }else if(result.role == "patient"){
-                        router.replace("/benh-nhan")
-                    }else {
-                        router.replace("/")
-                    }
-                }
+               const result = await signUp(
+                     value.name,
+                     value.email,
+                     value.password,
+                     value.address,
+                     value.phone,
+                     value.age,
+                     value.role
+               )
+               if(result && isMounted()){
+                   console.log(result)
+               }
+            console.log(value)
             }
             catch(err){
-                // console.log(err.message)
                 if (isMounted()) {
                     helpers.setStatus({ success: false });
                     helpers.setErrors({ submit: err.message });
@@ -76,7 +77,6 @@ const Page: PageType = () => {
             }
         }
     })
-const [displayPassword, setDisplayPassword] = useState(false);
     return (
         <>
             <Card elevation={16}>
@@ -109,18 +109,18 @@ const [displayPassword, setDisplayPassword] = useState(false);
                             color="textPrimary"
                             variant="h5"
                         >
-                            Đăng nhập
+                            Đăng Kí tài khoản
                         </Typography>
                         <form onSubmit={forkmik.handleSubmit}>
                             <TextField
                                 defaultValue="Bác sĩ" 
                                 fullWidth
                                 select
-                                label="position"
+                                label="Chức vụ"
                                 margin="normal"
-                                name="position"
+                                name="role"
                                 type="text"
-                                value={forkmik.values.position}
+                                value={forkmik.values.role}
                                 onChange={forkmik.handleChange}
                                 onBlur={forkmik.handleBlur}
                                 InputProps={
@@ -141,6 +141,69 @@ const [displayPassword, setDisplayPassword] = useState(false);
                                     </MenuItem>
                                 ))}
                             </TextField>
+                            <Box
+                                sx ={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <TextField
+                                    autoFocus
+                                    fullWidth
+                                    label="Họ và tên"
+                                    margin="normal"
+                                    name="name"
+                                    type="text"
+                                    value={forkmik.values.name}
+                                    onChange={forkmik.handleChange}
+                                    onBlur={forkmik.handleBlur}
+                                    error={!!(forkmik.touched.name && forkmik.errors.name)}
+                                    helperText={forkmik.touched.name && forkmik.errors.name}
+                                    sx={{
+                                        marginRight: 1
+                                    }}
+                                />
+
+                                <TextField
+                                    autoFocus
+                                    fullWidth
+                                    label="Tuổi"
+                                    margin="normal"
+                                    name="age"
+                                    type="text"
+                                    value={forkmik.values.age}
+                                    onChange={forkmik.handleChange}
+                                    onBlur={forkmik.handleBlur}
+                                    error={!!(forkmik.touched.age && forkmik.errors.age)}
+                                    helperText={forkmik.touched.age && forkmik.errors.age}
+                                />
+                            </Box>
+                            <TextField
+                                autoFocus
+                                fullWidth
+                                label="Địa chỉ"
+                                margin="normal"
+                                name="address"
+                                type="text"
+                                value={forkmik.values.address}
+                                onChange={forkmik.handleChange}
+                                onBlur={forkmik.handleBlur}
+                                error={!!(forkmik.touched.address && forkmik.errors.address)}
+                                helperText={forkmik.touched.address && forkmik.errors.address}
+                            />
+                            <TextField
+                                autoFocus
+                                fullWidth
+                                label="Số điện thoại"
+                                margin="normal"
+                                name="phone"
+                                type="text"
+                                value={forkmik.values.phone}
+                                onChange={forkmik.handleChange}
+                                onBlur={forkmik.handleBlur}
+                                error={!!(forkmik.touched.phone && forkmik.errors.phone)}
+                                helperText={forkmik.touched.phone && forkmik.errors.phone}
+                            />
                             <TextField
                                 autoFocus
                                 fullWidth
@@ -198,16 +261,16 @@ const [displayPassword, setDisplayPassword] = useState(false);
                                 fullWidth
                                 
                             >
-                                Đăng nhập
+                                Đăng Kí tài khoản
                             </Button>
                         </form>
                         <Link 
-                            href="/dang-ki-tai-khoan"
+                            href="/auth/login"
                             underline="none"
                             variant="body2"
                             align="center"
                         >   
-                            Đăng kí tài khoản / Kích hoạt tài khoản
+                            Đăng Nhập
                         </Link>
                             
                     </Stack>
@@ -219,9 +282,17 @@ const [displayPassword, setDisplayPassword] = useState(false);
 
 Page.getLayout = (page) => (
     <IssuerGuard issuer={Issuer.JWT}>
-      <GuestGuard>
-        <AuthLayout>{page}</AuthLayout>
-      </GuestGuard>
+        <GuestGuard>
+            <Layout>
+                {page}
+            </Layout>
+        </GuestGuard>
     </IssuerGuard>
-);
+)
+
 export default Page;
+
+function isMounted() {
+    throw new Error('Function not implemented.');
+}
+

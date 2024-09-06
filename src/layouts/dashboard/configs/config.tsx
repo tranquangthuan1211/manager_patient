@@ -2,6 +2,7 @@
 import { ReactNode, use, useEffect, useState } from 'react';
 import {getDashboardAdminConfigs} from './dashboard-admin-config';
 import {getDashboardManagerConfigs} from './dashboard-manager-config';
+import {getDashboardPatientConfigs} from "./dashboard-patient-config"
 import { useAuth } from 'src/hooks/use-auth';
 export interface DashboardItem {
     disabled?: boolean;
@@ -29,6 +30,8 @@ export const useSections = (): DashboardSection[] => {
         configs = getDashboardAdminConfigs;
       }else if(user?.role === "manager"){
         configs = getDashboardManagerConfigs;
+      }else if(user?.role === "patient"){
+        configs = getDashboardPatientConfigs;
       }
       setSections(configs);
     }
