@@ -33,6 +33,18 @@
 </p>
 * chúng ta có thể xem thật chi tiết bệnh nhân đến khám tại đây. Chúng ta có thể tải hồ sơ bệnh nhân tại chi tiết bệnh 
 
+#### Giao diện của người dùng
+1. Trang chủ người dùng có thể xem được danh sách các dịch vụ và những phòng khám gần khu vực mình ở
+<div display="flex">
+    <img src="public/assets/patient1.png" width="30%"/>
+    <img src="public/assets/patient2.png" width="30%"/>
+</div>
+
+2. Tại trang đặt lịch khám và tìm kiếm dịch vụ người dùng sẽ chọn lịch và đường đi từ vị trí người đó đến phòng khám sẽ hiển thị trên map
+<div display="flex">
+  <img src = "public/asset/patient3.png" width = "30%"/>
+  <img src = "public/asset/patient4.png" width = "30%"/>
+<div>
 #### Đây là những chức năng chính của trang web ngoài ra còn một số chức năng khác nữa mình đang update từng ngày.
 
 ### Yêu cầu
