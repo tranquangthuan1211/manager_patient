@@ -41,9 +41,10 @@
 </div>
 
 2. Tại trang đặt lịch khám và tìm kiếm dịch vụ người dùng sẽ chọn lịch và đường đi từ vị trí người đó đến phòng khám sẽ hiển thị trên map
+
 <div display="flex">
-  <img src = "public/asset/patient3.png" width = "30%"/>
-  <img src = "public/asset/patient4.png" width = "30%"/>
+  <img src = "public/assets/patient3.png" width = "30%"/>
+  <img src = "public/assets/patient4.png" width = "30%"/>
 <div>
 #### Đây là những chức năng chính của trang web ngoài ra còn một số chức năng khác nữa mình đang update từng ngày.
 
