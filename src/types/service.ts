@@ -10,7 +10,17 @@ export interface Service {
     createdAt: Date;
     updatedAt: Date;
 }
-
+export const initialService: Service = {
+    id: "",
+    clinic_id: "",
+    name: "",
+    clinic_name: "",
+    description: "",
+    price: 0,
+    address: "",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+}
 export const convertAddress = async (address: string): Promise<string> => {
     const accessToken = TOKEN;
     const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent("Khu phố 6, Đ. Võ Trường Toản, Phường Linh Trung, Thủ Đức, Hồ Chí Minh, Việt Nam")}.json?access_token=${accessToken}`;

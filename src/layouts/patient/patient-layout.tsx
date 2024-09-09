@@ -39,7 +39,7 @@ export const LayoutPatient:FC<PageProps> = (props) => {
                                 placeholder='Tìm kiếm dịch vụ'
                                 variant="outlined" 
                                 onChange={(e) => onSearchService(e.target.value)}
-                                onClick={() => onOpen(true)}
+                                onClick={() => onOpen && onOpen(true)}
                                 sx = {{
                                     width: '500px'
                                 }}
