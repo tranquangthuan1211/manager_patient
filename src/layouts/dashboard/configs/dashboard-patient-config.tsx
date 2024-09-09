@@ -20,7 +20,7 @@ export const getDashboardPatientConfigs: DashboardSection[] = [
             },
             {
                 title:"Đặt lịch",
-                path:"/dashboard/tao-lich",
+                path:Paths.patient["dat-lich"],
                 icon: <CalendarMonthIcon width = {20}/>
             },
             {
@@ -51,9 +51,11 @@ export const getDashboardPatientConfigs: DashboardSection[] = [
             },
             {
                 title: "Đăng xuất",
+                path: Paths.logout,
                 icon: <LogoutIcon sx = {{
                     width: 20,
                 }}/>
+
 
             }
         ]

@@ -1,16 +1,19 @@
 // Code: Layout for patient
-import { Box, Stack, TextField, Typography } from "@mui/material";
+import { Box, Stack, TextField, Typography, ClickAwayListener } from "@mui/material";
 import { FC,ReactNode, use } from "react";
 import { useAuth } from "src/hooks/use-auth";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+
 interface PageProps {
     imageUser?: string;
     children: ReactNode;
+    onSearchService: React.Dispatch<React.SetStateAction<string>>;
+    onOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 export const LayoutPatient:FC<PageProps> = (props) => {
-    const {children, imageUser} = props;
+    const {children, imageUser,onSearchService, onOpen} = props;
     const {user} = useAuth();
     return (
         <>
@@ -29,21 +32,23 @@ export const LayoutPatient:FC<PageProps> = (props) => {
                     alignItems="center"
                     
                 >
+                    
                     <Box>
-                        <TextField
-                            id="outlined-basic" 
-                            placeholder='Tìm kiếm dịch vụ'
-                            variant="outlined" 
-                            // onChange={(e) => setSerVices(e.target.value)}
-                            sx = {{
-                                width: '500px'
-                            }}
-                            InputProps={{
-                                endAdornment: (
-                                    <SearchOutlinedIcon style={{fontSize: '30px'}}/>
-                                )
-                            }}
-                        />
+                            <TextField
+                                id="outlined-basic" 
+                                placeholder='Tìm kiếm dịch vụ'
+                                variant="outlined" 
+                                onChange={(e) => onSearchService(e.target.value)}
+                                onClick={() => onOpen(true)}
+                                sx = {{
+                                    width: '500px'
+                                }}
+                                InputProps={{
+                                    endAdornment: (
+                                        <SearchOutlinedIcon style={{fontSize: '30px'}}/>
+                                    )
+                                }}
+                            />
                     </Box>
                     <Box
                         sx = {{

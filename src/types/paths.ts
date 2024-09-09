@@ -3,9 +3,10 @@ import doctor from "src/api/doctor";
 export const Paths = {
     index:'/',
     auth: {
-        login: "/auth/jwt/login",
+        login: "/auth/login",
         register: "/auth/jwt/register",
       },
+    logout: "/dang-xuat",
     dashboard: {
       "thong-ke": "/",
       "thong-tin-tai-khoan": "/thong-tin-tai-khoan",
@@ -22,5 +23,6 @@ export const Paths = {
     },
     patient:{
       "benh-nhan":"/benh-nhan",
+      "dat-lich":"/benh-nhan/dat-lich",
     }
 }

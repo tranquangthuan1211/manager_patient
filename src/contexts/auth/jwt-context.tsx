@@ -6,8 +6,7 @@ import type { User } from "src/types/users";
 import { Issuer } from "src/utils/auth";
 import CookieHelper, { CookieKeys } from "src/utils/cookie-helper";
 import { useRouter } from "next/router";
-// import { paths } from "src/paths";
-// import { getOfficerUnitType } from "src/utils/get-officer-unit-type";
+import {Paths} from 'src/types/paths';
 
 interface State {
   isInitialized: boolean;
@@ -293,7 +292,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
   const signOut = useCallback(async (): Promise<void> => {
     CookieHelper.removeItem(CookieKeys.TOKEN);
     dispatch({ type: ActionType.SIGN_OUT });
-    // router.push(paths.login);
+    router.push(Paths.auth.login);
   }, [router]);
 
   return (

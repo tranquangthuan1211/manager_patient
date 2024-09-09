@@ -4,10 +4,9 @@ import { Appointment } from "src/types/appointment";
 
 class AppointmentApi {
     async getAppointments(): Promise<Appointment[]> {
-        const response = await apiGet("/appointments");
-        return response;
+        return await apiGet("/appointments");
       }
-    async createAppointment(request: Appointment): Promise<Appointment> {
+    async createAppointment(request: Partial<Appointment>): Promise<Appointment> {
         return await apiPost("/appointments", request);
     }
 }

@@ -1,25 +1,25 @@
 export interface Appointment {
     id: string;
-    date: string;
-    time: string;
+    date: Date | null;
+    time: string | "";
     status: string;
     id_patient: string;
     name_patient?: string;
     id_doctor?: string;
     name_doctor?: string;
-    id_manager?: string;
+    clinic_id?: string;
     name_manager?: string;
 }
 
 export const initialAppointment: Appointment = {
     id: "",
-    date: "",
+    date: null ,
     time: "",
     status: "",
     id_patient: "",
     name_patient: "",
     id_doctor: "",
     name_doctor: "",
-    id_manager: "",
+    clinic_id: "",
     name_manager: "",
 };
