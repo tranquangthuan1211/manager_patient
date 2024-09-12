@@ -41,8 +41,8 @@ export const getDashboardAdminConfigs: DashboardSection[] = [
                 icon: <FaUserDoctor width={20}/>
             },
             {
-                title:"Tạo lịch",
-                path:"/dashboard/tao-lich",
+                title:"Thiết lập lịch",
+                path:Paths.dashboard["thiet-lap-lich"],
                 icon: <CalendarMonthIcon width = {20}/>
             },
             {
@@ -59,13 +59,13 @@ export const getDashboardAdminConfigs: DashboardSection[] = [
                     width: 20,
                 }}/>    
             },
-            {
-                title:"Xuất danh sách",
-                path: Paths.dashboard["xuat-danh-sach"],
-                icon: <SystemUpdateAltIcon sx = {{
-                    width: 20,
-                }}/>
-            }
+            // {
+            //     title:"Xuất danh sách",
+            //     path: Paths.dashboard["xuat-danh-sach"],
+            //     icon: <SystemUpdateAltIcon sx = {{
+            //         width: 20,
+            //     }}/>
+            // }
         ]
     }, 
     {

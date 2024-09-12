@@ -14,6 +14,7 @@ export const Paths = {
       "quan-ly-tai-khoan": "/quan-ly-tai-khoan",
       "benh-nhan": "/quan-ly-benh-nhan",
       "bac-si": "/quan-ly-bac-si",
+      "thiet-lap-lich": "/thiet-lap-lich",
       "xuat-danh-sach": "/xuat-danh-sach",
       "dich-vu": "/dich-vu",
       "quan-ly-khieu-nai":"/khieu-nai",
