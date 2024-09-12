@@ -24,5 +24,6 @@ export const Paths = {
     patient:{
       "benh-nhan":"/benh-nhan",
       "dat-lich":"/benh-nhan/dat-lich",
+      "lich-hen":"/benh-nhan/lich-hen",
     }
 }

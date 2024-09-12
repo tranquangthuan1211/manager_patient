@@ -25,7 +25,7 @@ export const getDashboardPatientConfigs: DashboardSection[] = [
             },
             {
                 title:"Lịch hẹn",
-                path:"/dashboard/lich-hen",
+                path:Paths.patient["lich-hen"],
                 icon: <EventAvailableIcon sx = {{
                     width: 20,
                 }}/>
