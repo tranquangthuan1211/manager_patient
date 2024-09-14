@@ -3,7 +3,7 @@ import useFunction, { DEFAULT_FUNCTION_RETURN, UseFunctionReturnType } from "src
 import {Complaint} from "src/types/complaint";
 import ComplaintApi from "src/api/complaints";
 interface contextValue {
-    getComplaintsApi: UseFunctionReturnType<FormData,{data:Complaint[]}>,
+    getComplaintsApi: UseFunctionReturnType<FormData,Complaint[]>,
 }
 const ComplaintContext = createContext<contextValue>({
     getComplaintsApi: DEFAULT_FUNCTION_RETURN,
