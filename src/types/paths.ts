@@ -18,7 +18,7 @@ export const Paths = {
       "xuat-danh-sach": "/xuat-danh-sach",
       "dich-vu": "/dich-vu",
       "quan-ly-khieu-nai":"/khieu-nai",
-      "settings":'/settings'
+      "settings":'/cai-dat'
     },
     doctor:{
     },
