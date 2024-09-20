@@ -1,6 +1,5 @@
 import {FC} from 'react';
 import {Complaint} from "src/types/complaint";
-import { Account } from 'src/types/account';
 import { CustomTableConfig } from 'src/components/custom-table';
 import { Stack, IconButton } from '@mui/material';
 import { Edit, Clear, Restore } from '@mui/icons-material';

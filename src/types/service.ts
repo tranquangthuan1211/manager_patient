@@ -2,6 +2,7 @@ import { TOKEN } from "./token-mapbox";
 export interface Service {
     id: string;
     clinic_id: string;
+    image?: string;
     name: string;
     clinic_name: string;
     description: string;
