@@ -2,8 +2,10 @@ import { Box, Stack, Typography } from '@mui/material';
 import {Layout} from 'src/layouts';
 import ContentHeader from 'src/sections/dashboard/quan-ly-tai-khoan/content-header';
 import { type Page as PageType } from 'src/types/page';
+import ServiceProvider, {useService} from 'src/contexts/services/service-context';
 
 const Page: PageType = () => {
+  const {getServiceClinicApi} = useService();
   return (
         <Stack spacing={3}>
             <ContentHeader
@@ -26,6 +28,11 @@ const Page: PageType = () => {
   )
 }
 
-Page.getLayout = (page) => <Layout>{page}</Layout>
+Page.getLayout = (page) => 
+<Layout>
+    <ServiceProvider>
+        {page}
+    </ServiceProvider>
+</Layout>
 
 export default Page;

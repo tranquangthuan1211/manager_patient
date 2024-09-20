@@ -4,25 +4,25 @@ import {Service} from "src/types/service";
 import ApiService from "src/api/services";
 
 interface contextValue {
-    getServiceApi: UseFunctionReturnType<FormData, Service[]>;
+    getServiceClinicApi: UseFunctionReturnType<FormData, Service[]>;
     setServices?: (services: Service[]) => void;
 }
 
 export const ServiceContext = createContext<contextValue>({
-    getServiceApi: DEFAULT_FUNCTION_RETURN,
+    getServiceClinicApi: DEFAULT_FUNCTION_RETURN,
     setServices: () => {},
 });
 
 const ServiceProvider: FC<{children: ReactNode}> = ({children}) => {
-    const getServiceApi = useFunction(ApiService.getServiceByName);
+    const getServiceClinicApi = useFunction(ApiService.getServiceClinic);
 
     useEffect(() => {
-        getServiceApi.call(new FormData());
+        getServiceClinicApi.call(new FormData());
     },[]);
     return (
         <ServiceContext.Provider
             value={{
-                getServiceApi
+                getServiceClinicApi
             }}
         >
             {children}

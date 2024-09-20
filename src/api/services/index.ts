@@ -5,6 +5,10 @@ class ApiService {
     const response = await apiGet("/services",request);
     return response;
    }
+   async getServiceClinic(request: FormData): Promise<Service[]> {
+    const response = await apiGet(`/services/clinic`, FormData);
+    return response;
+   }
 }
 
 export default new ApiService();

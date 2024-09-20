@@ -80,6 +80,7 @@ export const getDashboardAdminConfigs: DashboardSection[] = [
             },
             {
                 title: "Đăng xuất",
+                path: Paths.logout,
                 icon: <LogoutIcon sx = {{
                     width: 20,
                 }}/>
