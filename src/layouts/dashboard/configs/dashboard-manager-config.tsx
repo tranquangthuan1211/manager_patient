@@ -7,6 +7,7 @@ import FlagIcon from '@mui/icons-material/Flag';
 import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { FaUserDoctor } from "react-icons/fa6";
 export const getDashboardManagerConfigs: DashboardSection[] = [
     {
@@ -31,6 +32,13 @@ export const getDashboardManagerConfigs: DashboardSection[] = [
                     width: 20,
                 }}/>
             }, 
+            {
+                title:"Lịch hẹn",
+                path: Paths.dashboard["lich-hen"],
+                icon: <CalendarMonthIcon sx = {{
+                    width: 20,
+                }}/>
+            },
             {
                 title:"Quản lý khiếu nại",
                 path: Paths.dashboard["quan-ly-khieu-nai"],

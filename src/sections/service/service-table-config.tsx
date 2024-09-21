@@ -12,7 +12,7 @@ const getServiceConfigs = ():CustomTableConfig<Service["id"],Service>[] => [
                 return <img src={row.image} alt="service" style={{width: "50px", height: "50px"}}/>
             }
             return (
-                <Avatar sx={{ width: 72, height: 72, borderRadius: 2 }}>A</Avatar>
+                <Avatar sx={{ width: '100%', height: 72, borderRadius: 2 }}>A</Avatar>
             )
         } 
     },
