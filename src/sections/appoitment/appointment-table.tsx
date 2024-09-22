@@ -3,6 +3,7 @@ import { CustomTable } from "src/components/custom-table";
 import {getAppointmentConfigs} from "src/sections/appoitment/appointment-table-config";
 import usePagination from "src/hooks/use-pagination";
 import { Appointment } from "src/types/appointment";
+import { useAppointment } from "src/contexts/appointments/appointment-context";
 const NoLabelTextField = styled(TextField)<TextFieldProps>(() => ({
     "& .MuiInputBase-input.MuiFilledInput-input": {
       paddingTop: "8px",
@@ -15,7 +16,11 @@ const AppointmentTable = (
         appointments: Appointment[];
     }
 ) => {
-    const configs = getAppointmentConfigs();
+    const {updateAppointment} = useAppointment();
+    const configs = getAppointmentConfigs({
+      updateAppointment: (request:Appointment) => updateAppointment(request)
+    }
+    );
     const pagination = usePagination({ count: 20 });
     return (
         <>

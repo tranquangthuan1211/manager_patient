@@ -1,9 +1,73 @@
 import { Clear, Edit } from '@mui/icons-material';
-import { IconButton, Stack } from '@mui/material';
+import { Box, IconButton, Stack, Typography,Tooltip } from '@mui/material';
 import { CustomTableConfig } from 'src/components/custom-table';
 import { Appointment } from 'src/types/appointment';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import React from 'react';
+interface StatusOption {
+  name: string;
+  variant: 'error' | 'success' | 'warning' | 'info';
+}
 
-export const getAppointmentConfigs = ():CustomTableConfig<Appointment["id"],Appointment>[] => [
+const listStatusUI: StatusOption[] = [
+  {
+    name: "Đã hủy",
+    variant: "error",
+  },
+  {
+    name: "Đã Khám xong",
+    variant: "success",
+  },
+  {
+    name: "Đang chờ để điều trị",
+    variant: "warning",
+  },
+  {
+    name: "Đang điều trị",
+    variant: "info"
+  }
+];
+
+interface CustomStatusUIProps {
+  status: string;
+}
+
+export const CustomStatusUI: React.FC<CustomStatusUIProps> = ({ status }) => {
+  const statusOption = listStatusUI.find(item => item.name === status);
+
+  if (!statusOption) {
+    return null;
+  }
+
+  const { name, variant } = statusOption;
+
+  return (
+    <Box
+      sx={{
+        textAlign: "center",
+        backgroundColor: `${variant}.lightest`,
+        borderRadius: "10px",
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: `${variant}.main`,
+        padding: "2px 0px",
+      }}
+    >
+      <Box>
+        <Typography variant="body2" fontWeight={600} color={`${variant}.main`}>
+          {name}
+        </Typography>
+      </Box>
+    </Box>
+  );
+};
+export const getAppointmentConfigs = (
+  {
+    updateAppointment
+  }: {
+    updateAppointment: (request: Appointment) => void
+  }
+):CustomTableConfig<Appointment["id"],Appointment>[] => [
     {
         key: "patient_name",
         headerLabel: "Tên bệnh nhân",
@@ -18,6 +82,7 @@ export const getAppointmentConfigs = ():CustomTableConfig<Appointment["id"],Appo
         key:"status",
         headerLabel: "Trạng thái",
         type: "string",
+        renderCell: (data:Appointment) => <CustomStatusUI status={data.status} />,
     },
     {
         key: "date",
@@ -53,6 +118,17 @@ export const getAppointmentConfigs = ():CustomTableConfig<Appointment["id"],Appo
                         // onClick={() => editAppointment(data)}
                     />
                 </IconButton>
+                <Tooltip title="Đã hoàn thành">
+                  <IconButton>
+                    <ArrowCircleRightIcon
+                      sx={{
+                        color: `success.main`,
+                        fontSize: "20px",
+                      }}
+                      onClick={() => updateAppointment({...data, status: "Đã Khám xong"})}
+                    />
+                  </IconButton>
+              </Tooltip>
             </Stack>
         ),
     },

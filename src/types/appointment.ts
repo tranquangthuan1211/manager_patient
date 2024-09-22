@@ -1,4 +1,5 @@
 export interface Appointment {
+    _id: string;
     id: string;
     date: Date | null;
     time: string | "";
@@ -12,6 +13,7 @@ export interface Appointment {
 }
 
 export const initialAppointment: Appointment = {
+    _id: "",
     id: "",
     date: null ,
     time: "",

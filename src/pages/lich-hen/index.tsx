@@ -5,11 +5,11 @@ import AppointmentProvider, {useAppointment} from "src/contexts/appointments/app
 import ContentHeader from "src/sections/dashboard/quan-ly-tai-khoan/content-header";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import AppointmentTable from "src/sections/appoitment/appointment-table";
-import { downloadUrlOut } from "src/utils/url-handler";
 
 const Page: PageType = () => {
     const { getAppointments } = useAppointment();
     const listAppointments = useMemo(() => getAppointments.data?.data || [], [getAppointments]);
+    console.log(listAppointments);
     return (
         <Stack spacing = {2}>
             <ContentHeader
@@ -27,11 +27,11 @@ const Page: PageType = () => {
                     </Box>
                 }
             />
-            <Button
+            {/* <Button
              onClick={() => downloadUrlOut("https://pethouse.com.vn/wp-content/uploads/2023/10/smile.jpg", "anh.jpg")}
             >
                 Tai anh ve
-            </Button>
+            </Button> */}
             <Typography variant="body1">Số lượng lịch hẹn {listAppointments?.length || 0}</Typography>
             <AppointmentTable appointments={listAppointments} />
         </Stack>
