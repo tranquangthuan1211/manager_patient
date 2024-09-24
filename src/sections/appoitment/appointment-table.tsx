@@ -4,6 +4,8 @@ import {getAppointmentConfigs} from "src/sections/appoitment/appointment-table-c
 import usePagination from "src/hooks/use-pagination";
 import { Appointment } from "src/types/appointment";
 import { useAppointment } from "src/contexts/appointments/appointment-context";
+import { useDialog } from "src/hooks/use-dialog";
+import { ConfirmDialog } from "src/components/confirm-dialog";
 const NoLabelTextField = styled(TextField)<TextFieldProps>(() => ({
     "& .MuiInputBase-input.MuiFilledInput-input": {
       paddingTop: "8px",
@@ -16,12 +18,15 @@ const AppointmentTable = (
         appointments: Appointment[];
     }
 ) => {
-    const {updateAppointment} = useAppointment();
+    const {completeAppointment, updateAppointment, deleteAppointment} = useAppointment();
     const configs = getAppointmentConfigs({
-      updateAppointment: (request:Appointment) => updateAppointment(request)
+      completeAppointment: (request:Appointment) => completeAppointment(request),
+      updateAppointment: (request:Appointment) => updateAppointment(request),
+      deleteAppointment: (id:string) => deleteAppointment(id),
     }
     );
     const pagination = usePagination({ count: 20 });
+    const deleteDialog = useDialog();
     return (
         <>
         <CustomTable
@@ -84,6 +89,13 @@ const AppointmentTable = (
                 borderColor: "divider",
             }}
         />
+        <ConfirmDialog
+          title="Xác nhận xóa lịch hẹn"
+          open={deleteDialog.open}
+          onConfirm={() => {console.log(deleteDialog.data)} }
+          onCancel={deleteDialog.handleClose}
+          color="error"
+          />
     </>
     )
 }

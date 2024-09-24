@@ -63,9 +63,13 @@ export const CustomStatusUI: React.FC<CustomStatusUIProps> = ({ status }) => {
 };
 export const getAppointmentConfigs = (
   {
-    updateAppointment
+    updateAppointment,
+    completeAppointment,
+    deleteAppointment,
   }: {
     updateAppointment: (request: Appointment) => void
+    completeAppointment: (request: Appointment) => void
+    deleteAppointment: (id: string) => void
   }
 ):CustomTableConfig<Appointment["id"],Appointment>[] => [
     {
@@ -109,13 +113,13 @@ export const getAppointmentConfigs = (
                 <IconButton color="warning">
                     <Clear
                         sx={{ height: "20px", width: "20px" }}
-                        // onClick={() => deleteAppointment(data)}
+                        onClick={() => deleteAppointment(data._id)}
                     />
                 </IconButton>
                 <IconButton color="primary">
                     <Edit
                         sx={{ height: "20px", width: "20px" }}
-                        // onClick={() => editAppointment(data)}
+                        // onClick={() => updateAppointment(data)}
                     />
                 </IconButton>
                 <Tooltip title="Đã hoàn thành">
@@ -125,7 +129,7 @@ export const getAppointmentConfigs = (
                         color: `success.main`,
                         fontSize: "20px",
                       }}
-                      onClick={() => updateAppointment({...data, status: "Đã Khám xong"})}
+                      onClick={() => completeAppointment({...data, status: "Đã Khám xong"})}
                     />
                   </IconButton>
               </Tooltip>

@@ -8,8 +8,9 @@ import AppointmentTable from "src/sections/appoitment/appointment-table";
 
 const Page: PageType = () => {
     const { getAppointments } = useAppointment();
+    console.log(getAppointments.data);
     const listAppointments = useMemo(() => getAppointments.data?.data || [], [getAppointments]);
-    console.log(listAppointments);
+    // console.log(listAppointments);
     return (
         <Stack spacing = {2}>
             <ContentHeader

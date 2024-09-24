@@ -6,6 +6,7 @@ import { get } from "lodash";
 interface contextValue {
     getAppointments: UseFunctionReturnType<FormData, any>;
     createAppointment?: (requests: Partial<Appointment>) => Promise<void>;
+    completeAppointment: (requests: Partial<Appointment>) => Promise<void>;
     updateAppointment: (requests: Partial<Appointment>) => Promise<void>;
     deleteAppointment: (id: string) => Promise<void>;
 }
@@ -13,6 +14,7 @@ interface contextValue {
 const AppointmentContext = createContext<contextValue>({
     getAppointments: DEFAULT_FUNCTION_RETURN,
     createAppointment: async () => {},
+    completeAppointment: async () => {},
     updateAppointment: async () => {},
     deleteAppointment: async () => {}
 });
@@ -21,18 +23,39 @@ const AppointmentProvider = ({ children }:{ children: React.ReactNode }) => {
     const getAppointments = useFunction(AppointmentApi.getAppointments);
 
     const updateAppointment = useCallback(async (request: Partial<Appointment>) => {
-        console.log(request);
+        const { _id, ...rest } = request;
         try{
-            const response = await AppointmentApi.updateAppointment(request);
+            const response = await AppointmentApi.updateAppointment({ ...rest, id: _id });
             if(response) {
-                getAppointments.setData(
-                    (getAppointments.data || []).map((item: Appointment) =>{
-                        if(request.id === item.id) {
-                            return {...request, ...item};
+                getAppointments.setData({
+                    data: (getAppointments.data?.data || []).map((item: Appointment) => {
+                        if (_id === item._id) {
+                            return { ...request, ...item };
                         }
                         return item;
                     })
-                )
+                })
+            }
+        }
+        catch(err){
+            throw err;
+        }
+    }
+    ,[getAppointments]);
+    const completeAppointment = useCallback(async (request: Partial<Appointment>) => {
+        const { _id, ...rest } = request;
+        try{
+            const response = await AppointmentApi.completeAppointment({ ...rest, id: _id });
+            if(response) {
+                getAppointments.setData({
+                    data: (getAppointments.data?.data || []).map((item: Appointment) => {
+                        // console.log(rest);
+                        if (_id === item._id) {
+                            return { ...item, ...request };
+                        }
+                        return item;
+                    })
+                })
             }
         }
         catch(err){
@@ -41,11 +64,12 @@ const AppointmentProvider = ({ children }:{ children: React.ReactNode }) => {
     }
     ,[getAppointments]);
     const deleteAppointment = useCallback(async (id: string) => {
+        console.log(id);
         try{
             const response = await AppointmentApi.deleteAccount(id);
             if(response) {
                 getAppointments.setData(
-                    (getAppointments.data || []).filter((item: Appointment) => item.id !== id)
+                    { data: (getAppointments.data?.data || []).filter((item: Appointment) => item._id !== id) }
                 )
             }
         }
@@ -60,6 +84,7 @@ const AppointmentProvider = ({ children }:{ children: React.ReactNode }) => {
         <AppointmentContext.Provider 
             value={{ 
                 getAppointments, 
+                completeAppointment,
                 updateAppointment,
                 deleteAppointment
 
