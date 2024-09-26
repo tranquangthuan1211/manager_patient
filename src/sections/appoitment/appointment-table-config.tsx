@@ -1,9 +1,11 @@
 import { Clear, Edit } from '@mui/icons-material';
-import { Box, IconButton, Stack, Typography,Tooltip } from '@mui/material';
+import { Box, IconButton, Stack, Typography,Tooltip, Button } from '@mui/material';
 import { CustomTableConfig } from 'src/components/custom-table';
 import { Appointment } from 'src/types/appointment';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import React from 'react';
+import {StatusAppointment} from "src/types/appointment";
 interface StatusOption {
   name: string;
   variant: 'error' | 'success' | 'warning' | 'info';
@@ -11,20 +13,20 @@ interface StatusOption {
 
 const listStatusUI: StatusOption[] = [
   {
-    name: "Đã hủy",
+    name: StatusAppointment.CANCELLED,
     variant: "error",
   },
   {
-    name: "Đã Khám xong",
+    name: StatusAppointment.COMPLETED,
     variant: "success",
   },
   {
-    name: "Đang chờ để điều trị",
+    name: StatusAppointment.WAITING,
     variant: "warning",
   },
   {
-    name: "Đang điều trị",
-    variant: "info"
+    name: StatusAppointment.PENDING,
+    variant: "warning",
   }
 ];
 
@@ -66,10 +68,14 @@ export const getAppointmentConfigs = (
     updateAppointment,
     completeAppointment,
     deleteAppointment,
+    confirmAppointment,
+    cancelAppointment,
   }: {
     updateAppointment: (request: Appointment) => void
     completeAppointment: (request: Appointment) => void
     deleteAppointment: (id: string) => void
+    confirmAppointment: (appointment: Partial<Appointment>) => void
+    cancelAppointment: (id:string) => void
   }
 ):CustomTableConfig<Appointment["id"],Appointment>[] => [
     {
@@ -136,4 +142,43 @@ export const getAppointmentConfigs = (
             </Stack>
         ),
     },
+    {
+      key:"update",
+      headerLabel: "Tình trạng",
+      renderCell:(data:Appointment) => (
+        <>
+        {data.status == StatusAppointment.PENDING ? (
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing="auto"
+            paddingLeft="25px"
+            paddingRight="25px"
+          >
+              <Button
+                color='primary'
+                onClick={() => confirmAppointment(data)}
+              >Xác nhận</Button>
+            <Button
+              color='error'
+            >Huỷ</Button>
+          </Stack>
+        ): (
+          <Box
+           sx = {{
+              display: "flex",
+              justifyContent: "center",
+            }}  
+          >
+            <EventAvailableIcon
+              sx={{
+                color: `success.main`,
+                fontSize: "40px",
+              }}
+            />
+          </Box>
+        )}
+    </>
+      )
+    }
 ];

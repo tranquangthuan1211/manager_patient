@@ -7,3 +7,12 @@ export interface Doctor {
     role: string;
     major: string
 }
+export const initialDoctor: Doctor = {
+    id: "",
+    name: "",
+    age: 0,
+    phone: "",
+    address: "",
+    role: "",
+    major: ""
+};
