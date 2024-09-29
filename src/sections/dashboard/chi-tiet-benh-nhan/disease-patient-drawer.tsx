@@ -146,7 +146,7 @@ export const DiseasePatientDrawer: FC<DiseasePatientDrawerProps> = ({
                                 </Stack>
                             </Stack>
               </>
-          </Stack>
+                    </Stack>
                 </form>
             </Drawer>
        </>

@@ -1,7 +1,5 @@
 import { type Page as PageType } from 'src/types/page';
 import ContentHeader from 'src/sections/dashboard/quan-ly-tai-khoan/content-header';
-import PatientProvider, {usePatientsContext} from 'src/contexts/paitient/paitient-context';
-import DiseaseProvider, {useDiseaseContext} from 'src/contexts/diseases/disease-context';
 import {Layout} from 'src/layouts';
 import { Button, Stack, Box, TablePagination } from '@mui/material';
 import { Add, UploadFile } from '@mui/icons-material';

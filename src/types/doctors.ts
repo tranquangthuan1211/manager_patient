@@ -1,4 +1,5 @@
 export interface Doctor {
+    _id: string;
     id: string;
     name: string;
     age: number;
@@ -8,6 +9,7 @@ export interface Doctor {
     major: string
 }
 export const initialDoctor: Doctor = {
+    _id:"",
     id: "",
     name: "",
     age: 0,

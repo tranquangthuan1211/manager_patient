@@ -24,7 +24,7 @@ const AppointmentProvider = ({ children }:{ children: React.ReactNode }) => {
 
     const updateAppointment = useCallback(async (request: Partial<Appointment>) => {
         const { _id, ...rest } = request;
-        console.log(request);
+        // console.log(request);
         try{
             const response = await AppointmentApi.updateAppointment({ ...rest, id: _id });
             if(response) {
