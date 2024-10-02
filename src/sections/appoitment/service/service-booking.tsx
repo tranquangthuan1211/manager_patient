@@ -11,16 +11,17 @@ import {
   Tab,
   MenuItem,
 } from "@mui/material";
-import { Stack, spacing, styled } from "@mui/system";
-import React, { use, useCallback, useEffect, useMemo, useState } from "react";
+import { Stack, styled } from "@mui/system";
+import React, { useState } from "react";
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AppointmentApi from "src/api/appointments";
 import useFunction from "src/hooks/use-function";
 import { Service } from "src/types/service";
-import {Calendar} from "./date-picker"
+import { Calendar } from "./date-picker";
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
-import {useFormik} from 'formik';
+import { useFormik } from 'formik';
 import useAppSnackbar from 'src/hooks/use-app-snackbar';
+import { format } from "date-fns";
 const NoLabelTextField = styled(TextField)<TextFieldProps>(() => ({
   "& .MuiInputBase-input.MuiFilledInput-input": {
     paddingTop: "8px",
@@ -39,10 +40,10 @@ function ServiceBooking({
   const onClose = () => {
     onCloseParam();
   };
-  const [timeBooking, setTime] = useState<string | "">("");
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const createAppointment = useFunction(AppointmentApi.createAppointment);
   const { showSnackbarError, showSnackbarSuccess } = useAppSnackbar();
+  
   const formik = useFormik({
     initialValues: {
       date: new Date(),
@@ -50,19 +51,24 @@ function ServiceBooking({
     },
     onSubmit: async (values) => {
       try {
-        // console.log({clinic_id:service.clinic_id,timeBooking, selectedDate});
-        const response = await AppointmentApi.createAppointment({clinic_id:service.clinic_id,time:timeBooking, date:selectedDate, status:"Đang Đợi Khám"})
-        if(response) {
-          showSnackbarSuccess("Đặt lịch thành công")
+        console.log(format(values.date, "MM/dd/yyyy")); // Log the values for debugging
+        // Example request (uncomment when you have the backend ready)
+        const response = await AppointmentApi.createAppointment({
+          clinic_id: service.clinic_id,
+          time: values.time,
+          date: values.date,
+          status: "Đang Đợi Khám",
+        });
+        if (response) {
+          showSnackbarSuccess("Đặt lịch thành công");
         }
         onClose();
-      }
-      catch (error) {
+      } catch (error) {
         showSnackbarError(error);
       }
     },
   });
-  // console.log(service);
+
   return (
     <>
       <Drawer
@@ -96,9 +102,7 @@ function ServiceBooking({
                     Quay lại
                   </Typography>
                 </Box>
-                <Typography variant="h6">
-                  Đặt dịch hẹn
-                </Typography>
+                <Typography variant="h6">Đặt dịch hẹn</Typography>
               </Box>
 
               <Box
@@ -119,34 +123,37 @@ function ServiceBooking({
           </Paper>
 
           <Stack spacing={2} direction={"column"} p={"24px"}>
-              <Box
-                sx = {{
-                  display: "flex",
-                  gap: 2,
-                  alignItems: "center",
-                  padding: "8px",
-                }}
-              >
-                <CalendarTodayIcon/>
-                <Typography variant="h6">Chọn ngày</Typography>
-              </Box>
-              <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
-              <Box>
-                <WatchLaterIcon/>
-                <Typography variant="h6">Chọn giờ</Typography>
-              </Box>
-              <Stack direction="row" spacing={2}>
+            <Box
+              sx={{
+                display: "flex",
+                gap: 2,
+                alignItems: "center",
+                padding: "8px",
+              }}
+            >
+              <CalendarTodayIcon />
+              <Typography variant="h6">Chọn ngày</Typography>
+            </Box>
+            <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+            
+            <Box>
+              <WatchLaterIcon />
+              <Typography variant="h6">Chọn giờ</Typography>
+            </Box>
+            
+            <Stack direction="row" spacing={2}>
               {['09:00', '11:00', '13:00', '15:00', '17:00'].map((time) => (
-                <Button 
-                  key={time} variant="outlined"
-                  onClick={() => setTime(time)}
+                <Button
+                  key={time}
+                  variant="outlined"
+                  onClick={() => formik.setFieldValue('time', time)}
                   sx={{
-                    bgcolor: timeBooking === time ? 'primary.main' : 'background.paper',
-                    color: timeBooking === time ? 'common.white' : 'text.primary',
+                    bgcolor: formik.values.time === time ? 'primary.main' : 'background.paper',
+                    color: formik.values.time === time ? 'common.white' : 'text.primary',
                     "&:hover": {
                       color: 'white',
-                      backgroundColor:"blue"
-                    }
+                      backgroundColor: "blue",
+                    },
                   }}
                 >
                   {time}

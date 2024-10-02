@@ -3,8 +3,11 @@ import { apiGet, apiPost, apiDelete, apiPatch, apiPut } from "../api-requests";
 import { Appointment } from "src/types/appointment";
 
 class AppointmentApi {
+    async getAppointment(): Promise<Appointment> {
+        return await apiGet(`/appointments`);
+    }
     async getAppointments(): Promise<{data:Appointment[]}> {
-        return await apiGet("/appointments");
+        return await apiGet("/appointments/many-appoitment");
       }
     async createAppointment(request: Partial<Appointment>): Promise<Appointment> {
         return await apiPost("/appointments", request);

@@ -7,7 +7,7 @@ import {DoctorUpdateDrawer} from "./doctor-drawer";
 import { useDialog } from "src/hooks/use-dialog";
 import { ConfirmDialog } from "src/components/confirm-dialog";
 import { useDoctorsContext } from "src/contexts/doctors/doctor-context";
-import { de } from "date-fns/locale";
+import { da, de } from "date-fns/locale";
 const NoLabelTextField = styled(TextField)<TextFieldProps>(() => ({
     "& .MuiInputBase-input.MuiFilledInput-input": {
       paddingTop: "8px",
@@ -25,10 +25,10 @@ export const DoctorTable = ({
     onChangeFilter
 }: DoctorTableProps) => {
     const updateDoctorDrawer = useDrawer<Doctor>();
-    const deleteDialog = useDialog<string>();
+    const deleteDialog = useDialog<Doctor>();
     const doctorTableConfig = getDoctorTableConfig({
         editPatient: (data:Doctor) => updateDoctorDrawer.handleOpen(data),
-        deletePatient: (id:string) => deleteDialog.handleOpen(id)
+        deletePatient: (data:Doctor) => deleteDialog.handleOpen(data)
     })
     const {deleteDoctor} = useDoctorsContext();
     console.log(updateDoctorDrawer.data);
@@ -136,14 +136,15 @@ export const DoctorTable = ({
         <ConfirmDialog
             onConfirm={() => {
                 if (deleteDialog.data) {
-                    deleteDoctor(deleteDialog.data);
+                    deleteDoctor(deleteDialog.data.id);
                     deleteDialog.handleClose();
                 }
             }}
             onCancel={deleteDialog.handleClose}
             open={deleteDialog.open}
-            title="Xác nhận xóa"
+            title={`Xác nhận xóa bác sĩ ${deleteDialog.data?.name}`}
             content="Bạn có chắc chắn muốn xóa bác sĩ này?"
+            color="error"
         />
     </>
     )

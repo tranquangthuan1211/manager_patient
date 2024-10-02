@@ -9,9 +9,16 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import OrderProgress from 'src/sections/appoitment/process/process';
-
+import AppointmentProvider, {useAppointment} from 'src/contexts/appointments/appointment-context';
+import { useEffect, useMemo } from 'react';
+import { format, compareAsc } from "date-fns";
+import { Appointment } from 'src/types/appointment';
+import App from 'next/app';
 
 const Page: PageType = () => {
+    const {getAppointment} = useAppointment();
+    const appointment = useMemo(() => getAppointment.data, [getAppointment]) as Appointment;
+    console.log(appointment);
     return (
         <Stack 
             spacing={2}
@@ -32,19 +39,17 @@ const Page: PageType = () => {
                     </IconButton>
                     </Stack>
 
-                    {/* Ngày và Thời gian */}
                     <Stack spacing={1} sx={{ mt: 2 }}>
                     <Stack direction="row" alignItems="center" spacing={1}>
                         <CalendarTodayIcon />
-                        <Typography variant="body2">22 October, 2023</Typography>
+                        <Typography variant="body2"></Typography>
                     </Stack>
                     <Stack direction="row" alignItems="center" spacing={1}>
                         <AccessTimeIcon />
-                        <Typography variant="body2">08:00 AM - 10:30 AM</Typography>
+                        <Typography variant="body2">{appointment?.time}</Typography>
                     </Stack>
                     </Stack>
                 </CardContent>
-        {/* Thông tin Bác sĩ */}
                 <Box sx={{ backgroundColor: '#fff', color: '#000', borderRadius: 3, p: 2, mt: 1 }}>
                     <Stack direction="row" alignItems="center" spacing={2}>
                     <Avatar
@@ -62,7 +67,6 @@ const Page: PageType = () => {
                     </Stack>
                 </Box>
             </Card>
-            {/* trangj thai */}
             <OrderProgress />
         </Stack>
     )
@@ -70,9 +74,11 @@ const Page: PageType = () => {
 
 Page.getLayout = (page) => (
     <Layout>
-        <LayoutPatientProvider>
-            {page}
-        </LayoutPatientProvider>
+        <AppointmentProvider>
+            <LayoutPatientProvider>
+                {page}
+            </LayoutPatientProvider>
+        </AppointmentProvider>
     </Layout>
 )
 

@@ -10,7 +10,7 @@ const getDoctorTableConfig = (
       deletePatient
    }:{
       editPatient: (data:Doctor) => void,
-      deletePatient: (id:string) => void
+      deletePatient: (data:Doctor) => void
    }
 ):CustomTableConfig<Doctor["id"],Doctor>[] => [
    {
@@ -54,7 +54,7 @@ const getDoctorTableConfig = (
             <IconButton color="warning">
                <Clear  
                   sx={{ height: "20px", width: "20px" }} 
-                  onClick={() => deletePatient(data.id)}
+                  onClick={() => deletePatient(data)}
                />
             </IconButton>
              
