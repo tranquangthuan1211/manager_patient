@@ -32,7 +32,7 @@ export const getDashboardPatientConfigs: DashboardSection[] = [
             },
             {
                 title:"Trò chuyện",
-                path:"/dashboard/tro-chuyen",
+                path:Paths.chat,
                 icon: <MessageIcon sx = {{
                     width: 20,
                 }}/>    

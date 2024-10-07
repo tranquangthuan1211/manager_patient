@@ -7,6 +7,7 @@ export const Paths = {
         register: "/auth/jwt/register",
       },
     logout: "/dang-xuat",
+    chat: "/tu-van",
     dashboard: {
       "thong-ke": "/",
       "thong-tin-tai-khoan": "/thong-tin-tai-khoan",
