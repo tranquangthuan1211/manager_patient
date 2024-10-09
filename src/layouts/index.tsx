@@ -5,6 +5,7 @@ import { VerticalLayout } from './dashboard/vertical-layout';
 import { useSettings } from 'src/hooks/use-setting';
 import {IssuerGuard} from 'src/guards/issuer-guard';
 import {Issuer} from 'src/utils/auth';
+import SocketProvider from 'src/contexts/socket/socket-connect';
 
 interface PageProps {
     children: ReactNode;
@@ -18,7 +19,9 @@ export const Layout:FC<PageProps> = (props) => {
                 <VerticalLayout 
                     navColor={settings.navColor}
                 >
-                    {children}
+                    <SocketProvider>
+                        {children}
+                    </SocketProvider>
                 </VerticalLayout>
             </AuthGuard>
         </IssuerGuard>

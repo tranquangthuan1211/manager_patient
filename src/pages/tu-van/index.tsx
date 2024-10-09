@@ -1,63 +1,26 @@
 import { AttachFile, EmojiEmotions, Send } from '@mui/icons-material';
 import { Avatar, Box, Button, IconButton, List, ListItem, ListItemAvatar, ListItemText, Paper, Stack, TextField, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { Layout } from 'src/layouts';
 import { type Page as PageType } from 'src/types/page';
 import { io, Socket } from 'socket.io-client';
 import ChatList from 'src/sections/chat/chat-list';
+import { useSocket } from 'src/contexts/socket/socket-connect';
 
-interface ServerToClientEvents {
-    'chat message': (message: string) => void;
-}
-interface ClientToServerEvents {
-    'chat message': (message: string) => void;
-}
-  
-  // Khai báo biến socket với type đúng
-let socket: Socket<ServerToClientEvents, ClientToServerEvents> | undefined;
 const Page:PageType = () => {
-    const [messages, setMessages] = useState([
-      { id: 1, text: "Tuần sau học onl", sender: "user", timestamp: "16:20" },
-      { id: 2, text: "Tuần sau nữa ktra", sender: "user", timestamp: "16:20" },
-      { id: 3, text: "Phần httt", sender: "user", timestamp: "16:20" },
-      { id: 4, text: "Kiểm tra giữa kì hả", sender: "other", timestamp: "16:20" },
-      { id: 5, text: "À OK", sender: "other", timestamp: "16:20" },
-    ]);
     const [newMessage, setNewMessage] = useState("");
-    const [message, setMessage] = useState<string>('');
-    const [messagess, setMessagess] = useState<string[]>([]);
-    const [connected, setConnected] = useState<boolean>(false);
-    useEffect(() => {
-        // Khởi tạo socket connection với type
-        socket = io('http://localhost:3001');
-        
-        socket.on('connect', () => {
-          setConnected(true);
-        });
-    
-        socket.on('chat message', (msg: string) => {
-          setMessagess((prevMessages) => [...prevMessages, msg]);
-        });
-    
-        return () => {
-          socket?.close();
-        };
-    }, []);
-    useEffect(() => {
-        console.log(connected);
-    }, [connected]);
+    const { connected, messages, sendMessage } = useSocket();
+    console.log(messages)
     const handleSend = () => {
-      if (newMessage.trim()) {
-        setMessages([...messages, {
-          id: messages.length + 1,
-          text: newMessage,
-          sender: 'user',
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        }]);
-        setNewMessage("");
-      }
+      sendMessage({
+        content: newMessage,
+        sender: 'other',
+        receiver: 'Nguyễn Văn Tài',
+        timestamp: new Date().toISOString()
+      });
+      setNewMessage("");
     };
-  
+    
     return (
     <Stack
         flexDirection="row"
@@ -94,7 +57,7 @@ const Page:PageType = () => {
                     }}
                     >
                     <ListItemText 
-                        primary={message.text}
+                        primary={message.content}
                         secondary={message.timestamp}
                     />
                     </Paper>
