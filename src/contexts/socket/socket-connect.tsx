@@ -1,7 +1,7 @@
 // contexts/SocketContext.tsx
 import React, { createContext, FC, ReactNode, useContext, useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
-
+import { useAuth } from 'src/hooks/use-auth';
 interface Message {
   id?: string;
   content: string;
@@ -29,6 +29,7 @@ interface SocketContextType {
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
 
 const SocketProvidee:FC<{children: ReactNode}> = ({ children }) => {
+  const {user} = useAuth();
   const [socket, setSocket] = useState<Socket<ServerToClientEvents, ClientToServerEvents> | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [connected, setConnected] = useState(false);
@@ -39,7 +40,7 @@ const SocketProvidee:FC<{children: ReactNode}> = ({ children }) => {
     newSocket.on('connect', () => {
       setConnected(true);
     });
-
+    newSocket.emit('register', user);
     newSocket.on('disconnect', () => {
       setConnected(false);
     });

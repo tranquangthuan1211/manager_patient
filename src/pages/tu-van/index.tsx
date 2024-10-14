@@ -6,6 +6,8 @@ import { type Page as PageType } from 'src/types/page';
 import { io, Socket } from 'socket.io-client';
 import ChatList from 'src/sections/chat/chat-list';
 import { useSocket } from 'src/contexts/socket/socket-connect';
+import { useAuth } from 'src/hooks/use-auth';
+import MessageProvider from 'src/contexts/messages/messages-context';
 
 const Page:PageType = () => {
     const [newMessage, setNewMessage] = useState("");
@@ -15,7 +17,7 @@ const Page:PageType = () => {
       sendMessage({
         content: newMessage,
         sender: 'other',
-        receiver: 'Nguyễn Văn Tài',
+        receiver: '66b2decc57fd0d9f23b65d49',
         timestamp: new Date().toISOString()
       });
       setNewMessage("");
@@ -104,5 +106,10 @@ const Page:PageType = () => {
     </Stack>
     );
   }
-Page.getLayout = (page) => <Layout>{page}</Layout>;
+Page.getLayout = (page) =>  
+<Layout>
+    <MessageProvider>
+        {page}
+    </MessageProvider>
+</Layout>;
 export default Page;

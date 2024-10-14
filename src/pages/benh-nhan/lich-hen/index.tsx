@@ -1,7 +1,7 @@
 import { Page as PageType } from 'src/types/page';
 import { Layout } from 'src/layouts/index';
 import Map from 'src/sections/appoitment/map-box/map';
-import { Avatar, Card, CardContent, IconButton, Stack, Step, StepIconProps, StepLabel, Stepper, Typography} from '@mui/material';
+import { Avatar, Button, Card, CardContent, IconButton, Stack, Step, StepIconProps, StepLabel, Stepper, Typography} from '@mui/material';
 import LayoutPatientProvider from 'src/contexts/layout-patients/layout-patient-context';
 import { EditIcon } from 'lucide-react';
 import { Box } from '@mui/material';
@@ -13,11 +13,13 @@ import AppointmentProvider, {useAppointment} from 'src/contexts/appointments/app
 import { useEffect, useMemo } from 'react';
 import { format, compareAsc } from "date-fns";
 import { Appointment } from 'src/types/appointment';
-import App from 'next/app';
+import { useDrawer } from 'src/hooks/use-drawer';
+import {PaymentAppointment} from 'src/sections/appoitment/pay-appointment-drawer';
 
 const Page: PageType = () => {
     const {getAppointment} = useAppointment();
     const appointment = useMemo(() => getAppointment.data, [getAppointment]) as Appointment;
+    const drawerPayment = useDrawer<Appointment>();
     console.log(appointment);
     return (
         <Stack 
@@ -66,8 +68,52 @@ const Page: PageType = () => {
                     </IconButton>
                     </Stack>
                 </Box>
+                <Box
+                    sx = {{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        
+                        mt: 2
+                    }}
+                >
+                    <Button 
+                        sx = {{
+                            backgroundColor:"error.main",
+                            color: "white",
+                            "&:hover": {
+                                backgroundColor: "error.dark"
+                            }
+                        }}
+                        
+                    >
+                        Huỷ lịch khám bệnh
+                    </Button>
+                    <Button 
+                        sx = {{
+                            backgroundColor: "success.main",
+                            color: "white",
+                            "&:hover": {
+                                backgroundColor: "success.dark"
+                            }
+                        }}
+                    >
+                        xác nhận đã khám
+                    </Button>
+                    <Button
+                        variant='contained'  
+                        onClick={() => drawerPayment.handleOpen(appointment)}     
+                    >
+                        Thanh toán bằng chuyển khoản
+                    </Button>
+                </Box>
             </Card>
             <OrderProgress />
+            <PaymentAppointment
+                appointment={drawerPayment.data}
+                onClose={drawerPayment.handleClose}
+                open={drawerPayment.open}
+            />
         </Stack>
     )
 }

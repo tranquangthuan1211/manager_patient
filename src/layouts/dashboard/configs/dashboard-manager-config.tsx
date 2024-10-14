@@ -9,6 +9,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { FaUserDoctor } from "react-icons/fa6";
+import MessageIcon from '@mui/icons-material/Message';
 export const getDashboardManagerConfigs: DashboardSection[] = [
     {
         subheader:'Manager', 
@@ -59,6 +60,13 @@ export const getDashboardManagerConfigs: DashboardSection[] = [
                 icon: <SystemUpdateAltIcon sx = {{
                     width: 20,
                 }}/>
+            },
+            {
+                title:"Trò chuyện",
+                path:Paths.chat,
+                icon: <MessageIcon sx = {{
+                    width: 20,
+                }}/>    
             }
         ]
     }, 

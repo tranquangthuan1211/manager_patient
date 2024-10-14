@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import { 
   List,
   ListItem,
@@ -11,6 +11,8 @@ import {
   Paper
 } from '@mui/material';
 import { Users, Link, Image, PenSquare } from 'lucide-react';
+import { useSocket } from 'src/contexts/socket/socket-connect';
+import { useMessage } from 'src/contexts/messages/messages-context';
 
 const chatGroups = [
   {
@@ -77,6 +79,9 @@ const chatGroups = [
 ];
 
 export default function ChatList() {
+  const {getMessagesApi} = useMessage();
+  const messages =  useMemo(() => getMessagesApi.data, [getMessagesApi.data]);
+  console.log(messages);
   return (
     <Paper 
       elevation={3} 
