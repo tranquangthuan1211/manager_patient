@@ -120,7 +120,7 @@ export const AccountPatientManagement: FC<AccountPatientManagementProps> = ({
             open={deleteDialog.open} 
             onConfirm={async () => {
                 if(deleteDialog.data){
-                    await deleteAccount(deleteDialog.data.id, "patient");
+                    await deleteAccount(deleteDialog.data._id, "patient");
                     deleteDialog.handleClose();
                 }
             }}   

@@ -16,7 +16,7 @@ class UserApi {
       }
     async me(): Promise<{data:User}> {
         return await apiGet("/users/info");
-      }
+    }
 }
 
 export default new UserApi();

@@ -1,6 +1,6 @@
 
 export type SignInRequest = {
-    username: string;
+    email: string;
     password: string;
   };
 export type SignInResponse = Promise<{
@@ -20,6 +20,7 @@ export type SignUpResponse = Promise<{
     accessToken: string;
   }>;
 export interface User {
+    _id: string;
     id: string;
     id_doctor: string;
     id_manager: string;

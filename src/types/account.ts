@@ -1,4 +1,5 @@
 export interface Account {
+  _id: string;
   id: string;
   id_doctor: string;
   id_manager: string;
@@ -16,6 +17,7 @@ export interface Account {
 }
 
 export const initialAccount: Account = {
+  _id: "",
   id: "",
   id_doctor: "",
   id_manager: "",

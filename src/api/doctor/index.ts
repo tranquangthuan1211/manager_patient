@@ -3,7 +3,7 @@ import { Doctor } from "src/types/doctors";
 class DoctorApi {
     async getDoctors(
         requests: any
-    ):Promise<Doctor[]> {
+    ):Promise<{data:Doctor[] }> {
         return await apiGet("/doctors", requests);
     }
     async updateDoctor(request: Partial<Doctor>) {

@@ -29,18 +29,6 @@ export const getDashboardAdminConfigs: DashboardSection[] = [
                 }}/>    
             }, 
             {
-                title: "Bệnh nhân",
-                path: Paths.dashboard["benh-nhan"],
-                icon: <AccountBoxIcon sx = {{
-                    width: 20,
-                }}/>
-            }, 
-            {
-                title: "Bác sĩ",
-                path: Paths.dashboard["bac-si"],
-                icon: <FaUserDoctor width={20}/>
-            },
-            {
                 title:"Thiết lập lịch",
                 path:Paths.dashboard["thiet-lap-lich"],
                 icon: <CalendarMonthIcon width = {20}/>

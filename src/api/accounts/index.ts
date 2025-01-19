@@ -24,7 +24,8 @@ class AccountApi {
         return await apiPost("/users/many", {data: request});
     }
     async updateAccount(request: Partial<Account>) {
-        return await apiPut(`/users/${request.id}`, request);
+        console.log(request)
+        return await apiPut(`/users/${request._id}`, request);
     }
     async deleteAccount(id: string) {
         return await apiDelete(`/users/${id}`, {});

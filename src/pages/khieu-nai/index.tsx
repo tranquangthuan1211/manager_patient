@@ -8,7 +8,7 @@ import {ComplaintTable} from 'src/sections/complaint/complaint-table';
 
 const Page:PageType = () => {
     const {getComplaintsApi} = useComplaintContext()
-
+    console.log(getComplaintsApi)
     const listComplaints = useMemo(() => {
         return getComplaintsApi.data || []
     },[getComplaintsApi])

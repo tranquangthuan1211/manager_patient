@@ -91,9 +91,6 @@ const Page: PageType = () => {
                 {tabs.map((tab) => (
                 <Tab key={tab.key} label={tab.label} value={tab.key} />
                 ))}
-                {user?.role === "admin" && (
-                  <Tab key="admin" label="Tài khoản quản trị" value="admin" />
-                )}
             </Tabs>
         }
         />  
@@ -109,12 +106,12 @@ const Page: PageType = () => {
                 setFilter={() => {}}
             />
         )}
-        {user?.role === "admin" && tab === "admin" &&(
+        {/* {user?.role === "admin" && tab === "admin" &&(
             <AccountManager
               filter = {{}}
               setFilter={() => {}}
             />
-        )} 
+        )}  */}
 
         <AccountUploadSection
               open={uploadDrawer.open}

@@ -11,7 +11,7 @@ const Page:PageType = () => {
     const {getDoctorsApi} = useDoctorsContext()
     const doctors = useMemo(() =>{
 
-      return getDoctorsApi.data || []
+      return getDoctorsApi.data?.data || []
     },
     [getDoctorsApi.data]);
     useEffect(() => {

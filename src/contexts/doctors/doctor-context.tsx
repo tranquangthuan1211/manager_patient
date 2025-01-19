@@ -3,7 +3,7 @@ import useFunction, { UseFunctionReturnType, DEFAULT_FUNCTION_RETURN } from "src
 import { Doctor } from "src/types/doctors";
 import DoctorsApi from "src/api/doctor";
 interface contextValue {
-    getDoctorsApi: UseFunctionReturnType<FormData,Doctor[]>;
+    getDoctorsApi: UseFunctionReturnType<FormData,{data: Doctor[]}>;
     createDoctor?: (requests: Omit<Doctor, "id">) => Promise<void>;
     updateDoctor: (doctor: Partial<Doctor>) => Promise<void>;
     deleteDoctor: (id: string) => Promise<void>;
@@ -21,14 +21,14 @@ const DoctorProvider = ({children}: {children: React.ReactNode}) => {
         try {
             const response = await DoctorsApi.updateDoctor(doctor);
                 if(response) {
-                    getDoctorsApi.setData(
-                        (getDoctorsApi.data|| []).map((item: Doctor) => {
-                            if (doctor.id === item.id) {
-                                return { ...item, ...doctor };
-                            }
-                            return item;
-                        })
-                )
+                getDoctorsApi.setData({
+                    data: (getDoctorsApi.data?.data || []).map((item: Doctor) => {
+                        if (doctor.id === item.id) {
+                            return { ...item, ...doctor };
+                        }
+                        return item;
+                    })
+                })
                 }
         }
         catch(err) {
@@ -41,7 +41,7 @@ const DoctorProvider = ({children}: {children: React.ReactNode}) => {
             const response = await DoctorsApi.deleteDoctor(id);
             if(response) {
                 getDoctorsApi.setData(
-                    (getDoctorsApi.data || []).filter((item: Doctor) => item.id !== id)
+                    { data: (getDoctorsApi.data?.data || []).filter((item: Doctor) => item.id !== id) }
                 );
             }
         }

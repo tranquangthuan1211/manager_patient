@@ -5,9 +5,16 @@ class ApiService {
     const response = await apiGet("/services",request);
     return response;
    }
-   async getServiceClinic(request: FormData): Promise<Service[]> {
+   async getServiceClinic(request: FormData): Promise<{data:Service[]}> {
     const response = await apiGet(`/services/clinic`, FormData);
     return response;
+   }
+   async createService(request: Partial<Service>) {
+      return await apiPost("/services", request);
+   }
+   async updateAccount(request: Partial<Service>) {
+      console.log(request)
+      return await apiPut(`/services/${request._id}`, request);
    }
 }
 

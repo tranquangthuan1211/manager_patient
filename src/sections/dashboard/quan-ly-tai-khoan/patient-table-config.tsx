@@ -10,7 +10,7 @@ const getPaitientconfigs = ({
    detelePatient: (account:Account) => void
 }):CustomTableConfig<Account["id"],Account>[] => [
    {
-    key: "patient_code",
+    key: "id",
     headerLabel: "Mã bệnh nhân",
     type: "string",
    },

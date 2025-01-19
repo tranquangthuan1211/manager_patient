@@ -241,7 +241,7 @@ export const AuthProvider: FC<AuthProviderProps> = (props) => {
   const signIn = useCallback(
     async (email: string, password: string): Promise<User> => {
       const accessToken = CookieHelper.getItem(CookieKeys.TOKEN);
-      const response = await UsersApi.signIn({ username: email, password });
+      const response = await UsersApi.signIn({ email: email, password });
       // console.log(response);
       CookieHelper.setItem(CookieKeys.TOKEN, response.token);
       dispatch({

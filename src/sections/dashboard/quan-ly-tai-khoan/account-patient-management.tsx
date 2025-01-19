@@ -20,10 +20,7 @@ const AccountPatient = ({
     const listAccountsPatient = useMemo(() => {
       return (getAccountPatients.data?.data || []);
     },[getAccountPatients])
-    // useEffect(() => {
-    //   console.log(getAccountPatients.data)
-    //   console.log(getAccountPatients.loading)
-    // },[listAccountsPatient])
+    console.log()
     // useEffect(() => {
     //   console.log(getAccountPatients)
     // },[listAccountsPatient])

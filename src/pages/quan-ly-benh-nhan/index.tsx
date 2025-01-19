@@ -13,10 +13,10 @@ const Page:PageType = () => {
     const {getDiseasesApi} = useDiseaseContext()
     const {getPatientsApi} = usePatientsContext()
     const patients = useMemo(() => {
-      return getPatientsApi.data || [];
+      return getPatientsApi.data?.data || [];
     },[getPatientsApi])
     const data = useMemo(() => {
-        return getDiseasesApi.data || [];
+        return getDiseasesApi.data?.data || [];
     },[getDiseasesApi])
     const pagination = usePagination({ count: 20 });
     // console.log(data)

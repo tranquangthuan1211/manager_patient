@@ -4,6 +4,7 @@ import { Account, initialAccount } from "src/types/account";
 import AccountApi from "src/api/accounts";
 import { getFormData } from "src/api/api-requests";
 import useAppSnackbar from "src/hooks/use-app-snackbar";
+import PaitientsApi from "src/api/patients";
 interface contextValue {
     getAccountPatients : UseFunctionReturnType<FormData, any>;
     getAccountDoctors : UseFunctionReturnType<FormData, any>;
@@ -152,21 +153,22 @@ const AccountProvider = ({ children }:{ children: ReactNode }) => {
         async(account: Partial<Account>) => {
             try{
                 const response = await AccountApi.updateAccount(account); 
+                console.log(response);
                 if(response) {
                     if(account.role === "patient") {
                         getAccountPatients.setData({
                             data: (getAccountPatients.data?.data || []).map((patient: Account) => {
-                                if(patient.id === account.id) {
+                                if(patient._id === account._id) {
                                     return {...patient, ...account};
                                 }
                                 return patient;
                             })
                         })
                     }
-                    if(account.role === "doctor") {
+                    if(account.role === "Doctor") {
                         getAccountDoctors.setData({
                             data: (getAccountDoctors.data?.data || []).map((doctor: Account) => {
-                                if(doctor.id === account.id) {
+                                if(doctor._id === account._id) {
                                     return {...doctor, ...account};
                                 }
                                 return doctor;
@@ -176,7 +178,7 @@ const AccountProvider = ({ children }:{ children: ReactNode }) => {
                     if(account.role === "manager"){
                         getAccountManagers.setData({
                             data: (getAccountManagers.data?.data || []).map((manager: Account) => {
-                                if(manager.id === account.id) {
+                                if(manager._id === account._id) {
                                     return {...manager, ...account};
                                 }
                                 return manager;
@@ -201,17 +203,17 @@ const AccountProvider = ({ children }:{ children: ReactNode }) => {
             if(response) {
                 if(role === "patient") {
                     getAccountPatients.setData({
-                        data: (getAccountPatients.data?.data || []).filter((patient: Account) => patient.id !== id)
+                        data: (getAccountPatients.data?.data || []).filter((patient: Account) => patient._id !== id)
                     })
                 }
-                if(role === "doctor") {
+                if(role === "Doctor") {
                     getAccountDoctors.setData({
-                        data: (getAccountDoctors.data?.data || []).filter((doctor: Account) => doctor.id !== id)
+                        data: (getAccountDoctors.data?.data || []).filter((doctor: Account) => doctor._id !== id)
                     })
                 }
                 if(role === "manager") {
                     getAccountManagers.setData({
-                        data: (getAccountManagers.data?.data || []).filter((manager: Account) => manager.id !== id)
+                        data: (getAccountManagers.data?.data || []).filter((manager: Account) => manager._id !== id)
                     })
                 }
             }
@@ -222,7 +224,7 @@ const AccountProvider = ({ children }:{ children: ReactNode }) => {
     },[getAccountPatients, getAccountDoctors, getAccountManagers]);
     useEffect(() => {
         const patientsRequest = getFormData({role: "patient"});
-        const doctorsRequest = getFormData({role: "doctor"});
+        const doctorsRequest = getFormData({role: "Doctor"});
         const officersRequest = getFormData({role: "manager"});
 
         getAccountPatients.call(patientsRequest);

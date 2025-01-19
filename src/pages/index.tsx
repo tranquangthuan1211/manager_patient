@@ -37,6 +37,7 @@ const Page: PageType = () => {
     {value: 2021, label: 2021},
     {value: 2022, label: 2022},
     {value: 2024, label: 2024},
+    {value: 2025, label: 2025},
   ]
   const patientMonth = [
     {value: 1, label: "Tháng 1"},
@@ -60,8 +61,9 @@ const Page: PageType = () => {
   const [consultingDay, setConsultingDay] = useState<string>("");
   const {getPatientsApi} = usePatientsContext()
   const patients:Patient[] = useMemo(() => {
-    return getPatientsApi.data || [];
+    return getPatientsApi.data?.data || [];
   },[getPatientsApi.data])
+  console.log(patients)
   const patientFilter:Patient[] = useMemo(() => {
     return patients.filter((patient) => patientFilterFunction(patient,filter));
   },[filter,patients])

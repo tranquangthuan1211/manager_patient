@@ -4,6 +4,8 @@ import {CustomTable} from 'src/components/custom-table';
 import getServiceConfigs from './service-table-config';
 import usePagination from 'src/hooks/use-pagination';
 import { styled, TableCell, TablePagination, TableRow, TextField, TextFieldProps } from '@mui/material';
+import ServiceEditDrawer from './service-drawer';
+import { useDrawer } from 'src/hooks/use-drawer';
 interface ServiceProf{
     services: Service[];
 }
@@ -13,7 +15,12 @@ const NoLabelTextField = styled(TextField)<TextFieldProps>(() => ({
     },
   }));
 export const ServiceTable: FC<ServiceProf> = ({services}) => {
-    const config = getServiceConfigs();
+  const editDrawer = useDrawer<Service>();
+    const config = getServiceConfigs(
+      {
+        onEdit: (data:Service) => editDrawer.handleOpen(data),
+      }
+    );
     const pagination = usePagination({ count: 20 });
     return (
     <>
@@ -80,7 +87,12 @@ export const ServiceTable: FC<ServiceProf> = ({services}) => {
             borderTop: "1px solid",
             borderColor: "divider",
         }}
-    />
+      />
+      <ServiceEditDrawer
+        open={editDrawer.open}
+        onClose={editDrawer.handleClose}
+        account={editDrawer.data}
+      />
     </>
     )
 }

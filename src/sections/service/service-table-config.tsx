@@ -3,7 +3,16 @@ import { Edit, Clear, Restore } from '@mui/icons-material';
 import {CustomTableConfig} from "src/components/custom-table";
 import {Service} from "src/types/service";
 
-const getServiceConfigs = ():CustomTableConfig<Service["id"],Service>[] => [
+const getServiceConfigs = (
+    {
+        onEdit,
+        onDelete
+    }:
+    {
+        onEdit:(service:Service) => void,
+        onDelete?:(service:Service) => void
+    }
+):CustomTableConfig<Service["id"],Service>[] => [
     {
         key:"image",
         headerLabel:"Ảnh",
@@ -40,7 +49,7 @@ const getServiceConfigs = ():CustomTableConfig<Service["id"],Service>[] => [
         key:"edit",
         headerLabel:"Chỉnh sửa",
         type:"string",
-        renderCell: () => (
+        renderCell: (data) => (
             <Stack
             direction="row"
             alignItems="center"
@@ -59,7 +68,7 @@ const getServiceConfigs = ():CustomTableConfig<Service["id"],Service>[] => [
             <IconButton color="primary">
               <Edit 
                 sx={{ height: "20px", width: "20px" }} 
-                // onClick={() => editPatient(data)}
+                onClick={() => onEdit(data)}
               />
             </IconButton>
           </Stack>

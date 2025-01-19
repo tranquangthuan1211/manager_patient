@@ -2,7 +2,7 @@ import { apiGet, apiPost, apiDelete } from "../api-requests";
 import { Patient } from "src/types/patients";
 
 class PaitientsApi {
-    async getPatients(request: FormData): Promise<Patient[]> {
+    async getPatients(request: FormData): Promise<{data: Patient[]}> {
         const response = await apiGet("/patients", request);
         return response;
     }

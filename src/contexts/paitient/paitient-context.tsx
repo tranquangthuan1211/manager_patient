@@ -14,7 +14,7 @@ import { Patient } from "src/types/patients";
 import PatientsApi from "src/api/patients";
 
 interface ContextValue {
-    getPatientsApi: UseFunctionReturnType<FormData, Patient[]>;
+    getPatientsApi: UseFunctionReturnType<FormData, { data: Patient[] }>;
     createPatients?: (requests: Omit<Patient, "id">) => Promise<void>;
     updatePatients?: (patient: Partial<Patient>) => Promise<void>;
     deletePatient: (id: string) => Promise<void>;
@@ -29,17 +29,19 @@ export const PatientContext = createContext<ContextValue>({
 
 const PatientProvider = ({ children }: { children: ReactNode }) => {
     const getPatientsApi = useFunction(PatientsApi.getPatients);
-//    useEffect(() => {
-//         console.log(getPatientsApi)
-//    },[getPatientsApi.data])
+   useEffect(() => {
+        console.log(getPatientsApi)
+   },[getPatientsApi.data])
 
     const deletePatient = useCallback(
         async (id: string) => {
             try {
                 await PatientsApi.deletePatient(id);
                 console.log("Deleted successfully");
-                const updatedData = (getPatientsApi.data || []).filter((item) => item.id != id);
-                getPatientsApi.setData(updatedData);
+                const updatedData = (getPatientsApi.data?.data || []).filter((item) => item.id != id);
+                getPatientsApi.setData({
+                    data: updatedData
+                });
                 // console.log("Updated data:", updatedData);
             } catch (error) {
                 console.error("Error deleting patient:", error);

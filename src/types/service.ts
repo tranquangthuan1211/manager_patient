@@ -1,5 +1,6 @@
 import { TOKEN } from "./token-mapbox";
 export interface Service {
+    _id: string;
     id: string;
     clinic_id: string;
     image?: string;
@@ -12,6 +13,7 @@ export interface Service {
     updatedAt: Date;
 }
 export const initialService: Service = {
+    _id: "",
     id: "",
     clinic_id: "",
     name: "",

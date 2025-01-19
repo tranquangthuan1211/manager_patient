@@ -1,7 +1,7 @@
 import CookieHelper from "src/utils/cookie-helper";
 
 // import CookieHelper from "./cookie-helper";
-const API_HOST = "http://localhost:3001";
+const API_HOST = "http://localhost:3001/api/v1";
 
 export const getFormData = (data: { [name: string]: any }): FormData => {
   const formData = new FormData();

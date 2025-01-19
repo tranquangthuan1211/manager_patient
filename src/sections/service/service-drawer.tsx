@@ -13,16 +13,19 @@ import {
 } from "@mui/material";
 import { Stack, spacing, styled } from "@mui/system";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Service,initialService } from "src/types/service";
 
 import useFunction from "src/hooks/use-function";
 import { useFormik } from "formik";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Account, initialAccount } from "src/types/account";
+import { useAuth } from "src/hooks/use-auth";
 // import { useCategoriesContext } from "src/contexts/danh-muc/categories-context";
 // import { useAccountContext } from "src/contexts/tai-khoan/accounts-context";
 // import { UploadArea } from "./upload-area";
 import { useAccount } from "src/contexts/accounts/account-context";
 import { getFormData } from "src/api/api-requests";
+import { useService } from "src/contexts/services/service-context";
 
 const NoLabelTextField = styled(TextField)<TextFieldProps>(() => ({
   "& .MuiInputBase-input.MuiFilledInput-input": {
@@ -41,19 +44,20 @@ const tabs = [
   },
 ];
 
-function AccountsEditPaitientDrawer({
+function ServiceEditDrawer({
   open,
   onClose: onCloseParam,
   account,
 }: {
   open: boolean;
   onClose: () => void;
-  account?: Account;
+  account?: Service;
 }) {
 //   const { getUnitsApi } = useCategoriesContext();
 
   const [tab, setTab] = useState(tabs[0].key);
-  const {updateAccount} = useAccount();
+  const {updateService,createService} = useService();
+  const { user } = useAuth();
   const onClose = () => {
     onCloseParam();
     setTab(tabs[0].key);
@@ -63,41 +67,37 @@ function AccountsEditPaitientDrawer({
 //     useAccountContext();
 
   const handleSubmit = useCallback(
-    async (values: Account) => {
+    async (values: Service) => {
       if (values?._id) {
-        await updateAccount({ ...values });
+        await updateService({ ...values });
       } 
-      // else {
-      //   await createAccount({
-      //     name: values.name,
-      //     password: values.password,
-      //     role: "officer",
-      //     unit_id: values.unit_id,
-      //     username: values.officer_id,
-      //     phone: values.phone,
-      //     officer_id: values.officer_id,
-      //     position: values.position,
-      //     email: values.email,
-      //   });
+      else {
+        await createService(
+          {
+            ...values,
+            clinic_id: user?._id || "",
+          }
+        );
+      }
       //   const userRoleOfficer = getFormData({
       //     role: "officer",
       //   });
       //   getAccountsOfficerApi.call(userRoleOfficer);
       // }
     },
-    [updateAccount]
+    [updateService]
   );
 
   const handleSubmitHelper = useFunction(handleSubmit, {
     successMessage: account ? "Cập nhật thành công!" : "Thêm thành công!",
   });
 
-  const formik = useFormik<Account>({
-    initialValues: account || initialAccount,
+  const formik = useFormik<Service>({
+    initialValues: initialService,
     onSubmit: async (values) => {
         const { error } = await handleSubmitHelper.call(values);
         if (!error) {
-          formik.setValues(initialAccount);
+          formik.setValues(initialService);
           onClose();
         }
         console.log(values);
@@ -167,7 +167,7 @@ function AccountsEditPaitientDrawer({
           </Paper>
 
           <Stack spacing={"16px"} direction={"column"} px={"24px"}>
-            {
+            {/* {
               <Tabs
                 indicatorColor="primary"
                 textColor="primary"
@@ -178,7 +178,7 @@ function AccountsEditPaitientDrawer({
                   <Tab key={tab.key} label={tab.label} value={tab.key} />
                 ))}
               </Tabs>
-            }
+            } */}
 
             {tab == tabs[0].key && (
               <>
@@ -199,31 +199,18 @@ function AccountsEditPaitientDrawer({
                       onChange={formik.handleChange}
                     />
                   </Stack> */}
-                  
                   <Stack direction={"column"} spacing={"8px"} width={1}>
                     <Typography fontSize={"12px"} fontWeight={500}>
-                      HỌ TÊN
+                      DỊCH VỤ
                     </Typography>
                     <NoLabelTextField
                       fullWidth
-                      placeholder="Nhập họ tên..."
+                      placeholder="Nhập tên dịch vụ..."
                       name="name"
                       value={formik.values.name}
                       onChange={formik.handleChange}
                     />
                   </Stack>
-                  <Stack direction={"column"} spacing={"8px"} width={1}>
-                    <Typography fontSize={"12px"} fontWeight={500}>
-                      Giới tính
-                    </Typography>
-                    <NoLabelTextField
-                      fullWidth
-                      placeholder="Nhập giới tính..."
-                      name="gender"
-                      value={formik.values.gender}
-                      onChange={formik.handleChange}
-                    />
-                  </Stack>
                 </Stack>
 
                 <Stack
@@ -233,25 +220,13 @@ function AccountsEditPaitientDrawer({
                 >
                   <Stack direction={"column"} spacing={"8px"} width={1}>
                     <Typography fontSize={"12px"} fontWeight={500}>
-                      Địa chỉ
+                        GIÁ DỊCH VỤ
                     </Typography>
                     <TextField
                       fullWidth
-                      placeholder="Nhập địa chỉ..."
-                      name="gender"
-                      value={formik.values.address}
-                      onChange={formik.handleChange}
-                    />
-                  </Stack>
-                  <Stack direction={"column"} spacing={"8px"} width={1}>
-                    <Typography fontSize={"12px"} fontWeight={500}>
-                      Tuổi
-                    </Typography>
-                    <NoLabelTextField
-                      fullWidth
-                      placeholder="Nhập tuổi..."
-                      name="age"
-                      value={formik.values.age}
+                      placeholder="Nhập giá dịch vụ..."
+                      name="price"
+                      value={formik.values.price}
                       onChange={formik.handleChange}
                     />
                   </Stack>
@@ -264,13 +239,13 @@ function AccountsEditPaitientDrawer({
                 >
                   <Stack direction={"column"} spacing={"8px"} width={1}>
                     <Typography fontSize={"12px"} fontWeight={500}>
-                      ĐIỆN THOẠI
+                      Mô tả
                     </Typography>
                     <NoLabelTextField
                       fullWidth
-                      placeholder="Nhập số điện thoại..."
-                      name="phone"
-                      value={formik.values.phone}
+                      placeholder="Nhập mô tả..."
+                      name="description"
+                      value={formik.values.description}
                       onChange={(e) => {
                         formik.handleChange(e);
                       }}
@@ -299,4 +274,4 @@ function AccountsEditPaitientDrawer({
   );
 }
 
-export default AccountsEditPaitientDrawer;
+export default ServiceEditDrawer;
