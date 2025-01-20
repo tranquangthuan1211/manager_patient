@@ -7,6 +7,7 @@ import ServiceProvider, {useService} from 'src/contexts/services/service-context
 import {ServiceTable} from 'src/sections/service/service-table';
 import { useDrawer } from 'src/hooks/use-drawer';
 import ServiceEditDrawer from 'src/sections/service/service-drawer';
+import AccountProvider from 'src/contexts/accounts/account-context';
 
 const Page: PageType = () => {
   const {getServiceClinicApi} = useService();
@@ -49,9 +50,11 @@ const Page: PageType = () => {
 
 Page.getLayout = (page) => 
 <Layout>
-    <ServiceProvider>
-        {page}
-    </ServiceProvider>
+    <AccountProvider>
+        <ServiceProvider>
+            {page}
+        </ServiceProvider>
+    </AccountProvider>
 </Layout>
 
 export default Page;

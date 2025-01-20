@@ -57,6 +57,7 @@ function ServiceEditDrawer({
 
   const [tab, setTab] = useState(tabs[0].key);
   const {updateService,createService} = useService();
+  const [dt,setdt] = useState<any>("");
   const { user } = useAuth();
   const onClose = () => {
     onCloseParam();
@@ -65,7 +66,7 @@ function ServiceEditDrawer({
 
 //   const { createAccount, updateAccount, getAccountsOfficerApi } =
 //     useAccountContext();
-
+  const {getAccountDoctors} = useAccount();
   const handleSubmit = useCallback(
     async (values: Service) => {
       if (values?._id) {
@@ -87,7 +88,9 @@ function ServiceEditDrawer({
     },
     [updateService]
   );
-
+  const doctors = useMemo(() => getAccountDoctors.data?.data || [], [
+    getAccountDoctors.data?.data,
+  ]);
   const handleSubmitHelper = useFunction(handleSubmit, {
     successMessage: account ? "Cập nhật thành công!" : "Thêm thành công!",
   });
@@ -211,6 +214,19 @@ function ServiceEditDrawer({
                       onChange={formik.handleChange}
                     />
                   </Stack>
+                  <TextField
+                    label="chọn năm"
+                    value={dt}
+                    sx = {{
+                      width:"100%",
+                      margin:'4px'
+                    }}
+                    onChange={(e) => setdt(e.target.value)}
+                  >
+                    {doctors.map((doctor:any) => (
+                      <MenuItem key={doctor.name} value={doctor.name}>{doctor.name}</MenuItem>
+                    ))}
+                  </TextField>
                 </Stack>
 
                 <Stack
